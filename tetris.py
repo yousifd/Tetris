@@ -25,7 +25,7 @@ def on_draw():
 
 @window.event
 def on_key_press(symbol, modifiers):
-    global x #FIX
+    global x #FIX(see bellow)
     if symbol == key.LEFT:
         x -= MOVMENT_CONSTANT
 	print 'X:', x
@@ -35,13 +35,17 @@ def on_key_press(symbol, modifiers):
     elif symbol == key.ESCAPE:
 	window.close 
 
-def fall(dt, *args):
-    y = args[0]
+#----------------
+#we difine a function that stores the current values of y and x
+#---------------
+
+def fall(dt):
+    global y
     if y > BOTTOM:
 	y -= MOVMENT_CONSTANT
 	print 'Y:', y
 
-pyglet.clock.schedule_interval(fall, 1, y)
+pyglet.clock.schedule_interval(fall, 1)
 
 while True:
     choice = raw_input('1 for playing, 0 for kill: ')
