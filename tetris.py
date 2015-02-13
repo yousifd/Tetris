@@ -4,30 +4,36 @@
 # make blocks
 # make function that randomly chooses blocks
 
+import pyglet
+from pyglet.window import key
+from pyglet import clock
+
+MOVMENT_CONSTANT = 1
+BOTTOM = -100
+
 block = {'A':1} #this is Block
 y = 0 #this is top of screen
 x = 0 #this is center of screen
-#speed = 1
-
-import time
-import pyglet
-from pyglet.window import key 
-
-MOVMENT_CONSTANT = 1
-BOTTOM = -30
-
+ 
+def fall(dt):
+    global y
+    
+    if y > BOTTOM:
+	y -= MOVMENT_CONSTANT
+	print 'Y:', y
 
 #create a window
 window = pyglet.window.Window()
+clock.schedule_interval(fall, 1)
 
 @window.event
 def on_draw():
-    window.clear()
+    window.clear()    
 
 @window.event
 def on_key_press(symbol, modifiers):
     global x #FIX(see bellow)
-    #global speed
+
     if symbol == key.LEFT:
         x -= MOVMENT_CONSTANT
 	print 'X:', x
@@ -35,26 +41,16 @@ def on_key_press(symbol, modifiers):
 	x += MOVMENT_CONSTANT
 	print 'X:', x
     elif symbol == key.DOWN:
-	#speed = 2
-	#print 'Speed:', speed
-	print 'faster'
+        fall(0)
+    elif symbol == key.UP:
+        print 'Rotate'
     elif symbol == key.ESCAPE:
 	window.close()
 	pyglet.app.exit()
-
+    
 #----------------
 #we difine a function that stores the current values of y and x
 #---------------
-
-def fall(dt):
-    global y
-    #global speed
-    if y > BOTTOM:
-	y -= MOVMENT_CONSTANT # * speed)
-	print 'Y:', y
-	speed = 1
-
-pyglet.clock.schedule_interval(fall, 1)
 
 pyglet.app.run()    
 
