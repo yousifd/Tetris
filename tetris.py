@@ -16,7 +16,7 @@ from pyglet import sprite
 WIDTH = 360
 HEIGHT = 648
 MOVMENT_CONSTANT = 36
-BOTTOM = -HEIGHT
+BOTTOM = 0
 
 mainMenuBatch = graphics.Batch()
 gameBatch = graphics.Batch()
@@ -32,14 +32,14 @@ quitButton = sprite.Sprite(quit, x=130, y=250, batch=mainMenuBatch)
 blockSprite = sprite.Sprite(blockImage, x=WIDTH/2, y=HEIGHT, batch=gameBatch)
 
 block = {'A':blockSprite} #this is Block
-y = 0 #this is top of screen
+y = 648 #this is top of screen
 x = WIDTH / 2 #this is center of screen
 gameStart = False
    
 def fall(dt):
     global y #FIX
     
-    if y < BOTTOM:
+    if y > BOTTOM:
 	y -= MOVMENT_CONSTANT
 	block['A'].set_position(x=x, y=y)
 	print 'Y:', y
