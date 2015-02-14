@@ -86,11 +86,11 @@ def on_mouse_press(x, y, button, modifiers):
 def on_key_press(symbol, modifiers):
     global x #FIX(see bellow)
 
-    if symbol == key.LEFT:
+    if symbol == key.LEFT and x > 0:
         x -= MOVMENT_CONSTANT
         block['A'].set_position(x=x, y=y)
 	print 'X:', x
-    elif symbol == key.RIGHT:
+    elif symbol == key.RIGHT and x < WIDTH - MOVMENT_CONSTANT:
 	x += MOVMENT_CONSTANT
 	block['A'].set_position(x=x, y=y)
 	print 'X:', x
