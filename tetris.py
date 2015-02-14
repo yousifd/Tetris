@@ -12,14 +12,14 @@ from pyglet import graphics
 from pyglet import image
 from pyglet import sprite
 
+WIDTH = 460
+HEIGHT = 680
 MOVMENT_CONSTANT = 1
-BOTTOM = -30
+BOTTOM = HEIGHT
 
 block = {'A':1} #this is Block
-width = 460
-height = 680
 y = 0 #this is top of screen
-x = 0 #this is center of screen
+x = WIDTH / 2 #this is center of screen
 gameStart = False
 
 def mainMenu():
@@ -41,11 +41,11 @@ def fall(dt):
     global y
     
     if y > BOTTOM:
-	y -= MOVMENT_CONSTANT
+	y += MOVMENT_CONSTANT
 	print 'Y:', y
 
 #create a window
-window = pyglet.window.Window(width=width, height=height)
+window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
 
 if gameStart:
     clock.schedule_interval(fall, 1)
