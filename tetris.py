@@ -4,9 +4,9 @@
 # make blocks
 # make function that randomly chooses blocks
 
-import time
 import pyglet
 from pyglet.window import key
+from pyglet.window import mouse
 from pyglet import clock
 from pyglet import graphics
 from pyglet import image
@@ -33,24 +33,37 @@ playButton = sprite.Sprite(play, x=100, y=350, batch=mainMenuBatch)
 quitButton = sprite.Sprite(quit, x=130, y=250, batch=mainMenuBatch)
    
 def fall(dt):
-    global y
+    global y #FIX
     
-    if y > BOTTOM:
+    if y < BOTTOM:
 	y += MOVMENT_CONSTANT
 	print 'Y:', y
 
 #create a window
-window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
-
-if gameStart:
-    clock.schedule_interval(fall, 1)
+window = pyglet.window.Window(width=WIDTH, height=HEIGHT)  
 
 @window.event
 def on_draw():
     window.clear() 
     if not gameStart:
         mainMenuBatch.draw()
-
+        
+@window.event
+def on_mouse_press(x, y, button, modifiers):
+    global gameStart #FIX 
+    
+    if button == mouse.LEFT:
+        if not gameStart:
+            if 100 <= x <= 363 and 350 <= y <= 423:
+                gameStart = True
+                clock.schedule_interval(fall, 1) 
+                #titleSprite.delete()
+                playButton.delete()
+                quitButton.delete()
+            elif 130 <= x <= 334 and 250 <= y <= 319:
+                window.close()
+                pyglet.app.exit()
+                  
 @window.event
 def on_key_press(symbol, modifiers):
     global x #FIX(see bellow)
@@ -68,10 +81,6 @@ def on_key_press(symbol, modifiers):
     elif symbol == key.ESCAPE:
 	window.close()
 	pyglet.app.exit()
-    
-#----------------
-#we difine a function that stores the current values of y and x
-#---------------
 
 pyglet.app.run()    
 
