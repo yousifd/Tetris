@@ -3,6 +3,7 @@
 
 # make blocks
 # make function that randomly chooses blocks
+# Size of play area 10x18 blocks 
 
 import pyglet
 from pyglet.window import key
@@ -12,7 +13,7 @@ from pyglet import graphics
 from pyglet import image
 from pyglet import sprite
 
-WIDTH = 460
+WIDTH = 370
 HEIGHT = 680
 MOVMENT_CONSTANT = 1
 BOTTOM = HEIGHT
