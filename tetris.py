@@ -22,20 +22,15 @@ y = 0 #this is top of screen
 x = WIDTH / 2 #this is center of screen
 gameStart = False
 
-def mainMenu():
-    #title = image.load('title.png')
-    play = image.load('play.png')
-    quit = image.load('quit.png')
-    
-    mainMenuBatch = graphics.Batch()
-    
-    #titleSprite = sprite.Sprite(title, x=, y=, batch=mainMenuBatch)
-    playButton = sprite.Sprite(play, x=100, y=350, batch=mainMenuBatch)
-    quitButton = sprite.Sprite(quit, x=130, y=250, batch=mainMenuBatch)
-    
-    #if start game change startGame Variable
-    
-    mainMenuBatch.draw()
+#title = image.load('title.png')
+play = image.load('play.png')
+quit = image.load('quit.png')
+
+mainMenuBatch = graphics.Batch()
+
+#titleSprite = sprite.Sprite(title, x=, y=, batch=mainMenuBatch)
+playButton = sprite.Sprite(play, x=100, y=350, batch=mainMenuBatch)
+quitButton = sprite.Sprite(quit, x=130, y=250, batch=mainMenuBatch)
    
 def fall(dt):
     global y
@@ -53,10 +48,8 @@ if gameStart:
 @window.event
 def on_draw():
     window.clear() 
-    if gameStart:
-        print 'startGame'
-    else:
-        mainMenu()
+    if not gameStart:
+        mainMenuBatch.draw()
 
 @window.event
 def on_key_press(symbol, modifiers):
