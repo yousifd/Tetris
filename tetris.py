@@ -13,8 +13,8 @@ from pyglet import graphics
 from pyglet import image
 from pyglet import sprite
 
-WIDTH = 370
-HEIGHT = 680
+WIDTH = 360
+HEIGHT = 648
 MOVMENT_CONSTANT = 1
 BOTTOM = HEIGHT
 
