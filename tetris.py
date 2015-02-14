@@ -18,6 +18,16 @@ HEIGHT = 648
 MOVMENT_CONSTANT = 36
 BOTTOM = 0
 
+PLAY_WIDTH = 263
+PLAY_HEIGHT = 73 
+PLAY_BOUNDARYx = WIDTH/2 - 130
+PLAY_BOUNDARYy = HEIGHT/2 
+
+QUIT_WIDTH = 204
+QUIT_HEIGHT = 69
+QUIT_BOUNDARYx = WIDTH/2 - 100
+QUIT_BOUNDARYy = HEIGHT/2 - 100
+
 mainMenuBatch = graphics.Batch()
 gameBatch = graphics.Batch()
 
@@ -27,12 +37,12 @@ quit = image.load('quit.png')
 blockImage = image.load('block.png')
 
 #titleSprite = sprite.Sprite(title, x=, y=, batch=mainMenuBatch)
-playButton = sprite.Sprite(play, x=100, y=350, batch=mainMenuBatch)
-quitButton = sprite.Sprite(quit, x=130, y=250, batch=mainMenuBatch)
+playButton = sprite.Sprite(play, x=PLAY_BOUNDARYx, y=PLAY_BOUNDARYy, batch=mainMenuBatch)
+quitButton = sprite.Sprite(quit, x=QUIT_BOUNDARYx, y=QUIT_BOUNDARYy, batch=mainMenuBatch)
 blockSprite = sprite.Sprite(blockImage, x=WIDTH/2, y=HEIGHT, batch=gameBatch)
 
 block = {'A':blockSprite} #this is Block
-y = 648 #this is top of screen
+y = HEIGHT #this is top of screen
 x = WIDTH / 2 #this is center of screen
 gameStart = False
    
@@ -43,6 +53,8 @@ def fall(dt):
 	y -= MOVMENT_CONSTANT
 	block['A'].set_position(x=x, y=y)
 	print 'Y:', y
+    else:
+        y = HEIGHT
 
 #create a window
 window = pyglet.window.Window(width=WIDTH, height=HEIGHT)  
@@ -60,13 +72,13 @@ def on_mouse_press(x, y, button, modifiers):
     
     if button == mouse.LEFT:
         if not gameStart:
-            if 100 <= x <= 363 and 350 <= y <= 423:
+            if PLAY_BOUNDARYx <= x <= (PLAY_BOUNDARYx+PLAY_WIDTH) and PLAY_BOUNDARYy <= y <= (PLAY_BOUNDARYy+PLAY_HEIGHT):
                 gameStart = True
                 clock.schedule_interval(fall, 1) 
                 #titleSprite.delete()
                 playButton.delete()
                 quitButton.delete()
-            elif 130 <= x <= 334 and 250 <= y <= 319:
+            elif QUIT_BOUNDARYx <= x <= QUIT_BOUNDARYx+QUIT_WIDTH and QUIT_BOUNDARYy <= y <= QUIT_BOUNDARYy+QUIT_HEIGHT:
                 window.close()
                 pyglet.app.exit()
                   
