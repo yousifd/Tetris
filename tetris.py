@@ -5,6 +5,8 @@
 # make function that randomly chooses blocks
 # Size of play area 10x18 blocks 
 
+from constants import *
+
 import pyglet
 from pyglet.window import key
 from pyglet.window import mouse
@@ -12,21 +14,6 @@ from pyglet import clock
 from pyglet import graphics
 from pyglet import image
 from pyglet import sprite
-
-WIDTH = 360
-HEIGHT = 648
-MOVMENT_CONSTANT = 36
-BOTTOM = 0
-
-PLAY_WIDTH = 263
-PLAY_HEIGHT = 73 
-PLAY_BOUNDARYx = WIDTH/2 - 130
-PLAY_BOUNDARYy = HEIGHT/2 
-
-QUIT_WIDTH = 204
-QUIT_HEIGHT = 69
-QUIT_BOUNDARYx = WIDTH/2 - 100
-QUIT_BOUNDARYy = HEIGHT/2 - 100
 
 mainMenuBatch = graphics.Batch()
 gameBatch = graphics.Batch()
