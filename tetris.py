@@ -6,6 +6,7 @@
 # Size of play area 10x18 blocks 
 
 from constants import *
+from pieces import *
 
 import pyglet
 from pyglet.window import key
@@ -16,19 +17,15 @@ from pyglet import image
 from pyglet import sprite
 
 mainMenuBatch = graphics.Batch()
-gameBatch = graphics.Batch()
 
 #title = image.load('title.png')
 play = image.load('play.png')
 quit = image.load('quit.png')
-blockImage = image.load('block.png')
 
 #titleSprite = sprite.Sprite(title, x=, y=, batch=mainMenuBatch)
 playButton = sprite.Sprite(play, x=PLAY_BOUNDARYx, y=PLAY_BOUNDARYy, batch=mainMenuBatch)
 quitButton = sprite.Sprite(quit, x=QUIT_BOUNDARYx, y=QUIT_BOUNDARYy, batch=mainMenuBatch)
-blockSprite = sprite.Sprite(blockImage, x=WIDTH/2, y=HEIGHT, batch=gameBatch)
 
-block = {'A':blockSprite} #this is Block
 y = HEIGHT #this is top of screen
 x = WIDTH / 2 #this is center of screen
 gameStart = False
