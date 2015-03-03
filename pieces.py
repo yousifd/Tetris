@@ -6,39 +6,54 @@ from pyglet import sprite
 
 gameBatch = graphics.Batch()
 
-blockImage = image.load('block.png')
-
-blockSprite = sprite.Sprite(blockImage, x=WIDTH/2, y=HEIGHT, batch=gameBatch)
-
-block = {'A':blockSprite} #this is Block
 y = HEIGHT #this is top of screen
 x = WIDTH / 2 #this is center of screen
 
+class piece:
+	def __init__(self, x, y):
+		self.blockImage = image.load('block.png')
+		self.blockSprite = sprite.Sprite(self.blockImage, x=WIDTH/2, y=HEIGHT, batch=gameBatch)
+		self.block = {'A':self.blockSprite}
+		self.x = x
+		self.y = y
+
+	def fall(self):
+		if self.y > BOTTOM:
+			self.y -= MOVMENT_CONSTANT
+			self.block['A'].set_position(x=self.x, y=self.y)
+		else:
+			self.y = HEIGHT
+		print 'Y:', self.y
+		return False
+
+	def movePieceLeft(self):
+		if self.x > 0:
+			self.x -= MOVMENT_CONSTANT
+			self.block['A'].set_position(x=self.x, y=self.y)
+		print 'X:', self.x
+		return False
+
+	def movePieceRight(self):
+		if self.x < WIDTH - MOVMENT_CONSTANT:
+			self.x += MOVMENT_CONSTANT
+			self.block['A'].set_position(x=self.x, y=self.y)
+		print 'X:', self.x
+		return False
+
+	def rotatePiece(self):
+		print 'Rotate'
+		return False
+
+piece = piece(x, y)
+
 def fall(dt):
-    global y
-    
-    if y > BOTTOM:
-	y -= MOVMENT_CONSTANT
-	block['A'].set_position(x=x, y=y)
-	print 'Y:', y
-    else:
-        y = HEIGHT
+    piece.fall()
 
 def movePieceLeft():
-	global x, y
-	
-	if x > 0:
-		x -= MOVMENT_CONSTANT
-		block['A'].set_position(x=x, y=y)
-		print 'X:', x
+	piece.movePieceLeft()
 
 def movePieceRight():
-	global x, y
-
-	if x < WIDTH - MOVMENT_CONSTANT:
-		x += MOVMENT_CONSTANT
-		block['A'].set_position(x=x, y=y)
-		print 'X:', x
+	piece.movePieceRight()
 
 def rotatePiece():
-	print 'Rotate'
+	piece.rotatePiece()
