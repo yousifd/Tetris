@@ -26,19 +26,7 @@ quit = image.load('quit.png')
 playButton = sprite.Sprite(play, x=PLAY_BOUNDARYx, y=PLAY_BOUNDARYy, batch=mainMenuBatch)
 quitButton = sprite.Sprite(quit, x=QUIT_BOUNDARYx, y=QUIT_BOUNDARYy, batch=mainMenuBatch)
 
-y = HEIGHT #this is top of screen
-x = WIDTH / 2 #this is center of screen
 gameStart = False
-   
-def fall(dt):
-    global y #FIX
-    
-    if y > BOTTOM:
-	y -= MOVMENT_CONSTANT
-	block['A'].set_position(x=x, y=y)
-	print 'Y:', y
-    else:
-        y = HEIGHT
 
 #create a window
 window = pyglet.window.Window(width=WIDTH, height=HEIGHT)  
@@ -52,7 +40,7 @@ def on_draw():
         
 @window.event
 def on_mouse_press(x, y, button, modifiers):
-    global gameStart #FIX 
+    global gameStart
     
     if button == mouse.LEFT:
         if not gameStart:
@@ -68,23 +56,17 @@ def on_mouse_press(x, y, button, modifiers):
                   
 @window.event
 def on_key_press(symbol, modifiers):
-    global x #FIX(see bellow)
-
-    if symbol == key.LEFT and x > 0:
-        x -= MOVMENT_CONSTANT
-        block['A'].set_position(x=x, y=y)
-	print 'X:', x
-    elif symbol == key.RIGHT and x < WIDTH - MOVMENT_CONSTANT:
-	x += MOVMENT_CONSTANT
-	block['A'].set_position(x=x, y=y)
-	print 'X:', x
+    if symbol == key.LEFT:
+        movePieceLeft()
+    elif symbol == key.RIGHT:
+        movePieceRight()
     elif symbol == key.DOWN:
         fall(0)
     elif symbol == key.UP:
-        print 'Rotate'
+        rotatePiece()
     elif symbol == key.ESCAPE:
-	window.close()
-	pyglet.app.exit()
+	    window.close()
+	    pyglet.app.exit()
 
 pyglet.app.run()    
 
