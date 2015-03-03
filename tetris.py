@@ -1,10 +1,3 @@
-#A B C D
-#E F G H
-
-# make blocks
-# make function that randomly chooses blocks
-# Size of play area 10x18 blocks 
-
 from constants import *
 from pieces import *
 
