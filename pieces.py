@@ -41,13 +41,20 @@ class piece(object):
 			else:
 				print "Invalid Piece Key!"
 
+	def fallBlock(self, sprite, y):
+		sprite.set_position(x=sprite.x, y=y)
+
+	def shiftBlock(self, sprite, x):
+		sprite.set_position(x=x, y=sprite.y)
+		print x
+
 	def fall(self):
 		return False
 
-	def movePieceLeft(self):
+	def shiftLeft(self):
 		return False
 
-	def movePieceRight(self):
+	def shiftRight(self):
 		return False
 
 	def rotatePiece(self):
@@ -57,32 +64,63 @@ class piece(object):
 class twoxtwo(piece):
 	def __init__(self, x, y):
 		piece.__init__(self, x, y)
-		self.twoxtwo= {'C':0, 'D':0, 'G':0, 'H':0}
+		self.twoxtwo = {'C':0, 'D':0, 'G':0, 'H':0}
 		piece.generatePiece(self, self.twoxtwo)
 
 	def fall(self):
 		if self.y > BOTTOM + BLOCKLENGTH:
 			self.y -= MOVMENT_CONSTANT
-			self.twoxtwo['C'].set_position(x=self.twoxtwo['C'].x, y=self.y)
-			self.twoxtwo['D'].set_position(x=self.twoxtwo['D'].x, y=self.y)
-			self.twoxtwo['G'].set_position(x=self.twoxtwo['G'].x, y=(self.y - BLOCKLENGTH))
-			self.twoxtwo['H'].set_position(x=self.twoxtwo['H'].x, y=(self.y - BLOCKLENGTH))
+			self.fallBlock(self.twoxtwo['C'], self.y)
+			self.fallBlock(self.twoxtwo['D'], self.y)
+			self.fallBlock(self.twoxtwo['G'], self.y - BLOCKLENGTH)
+			self.fallBlock(self.twoxtwo['H'], self.y - BLOCKLENGTH)
 
-	def movePieceLeft(self):
+	def shiftLeft(self):
 		if self.x > 0 - 2*BLOCKLENGTH:
 			self.x -= MOVMENT_CONSTANT
-			self.twoxtwo['C'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['C'].y)
-			self.twoxtwo['D'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['D'].y)
-			self.twoxtwo['G'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['G'].y)
-			self.twoxtwo['H'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['H'].y)
+			self.shiftBlock(self.twoxtwo['C'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.twoxtwo['D'], self.x + BLOCKLENGTH*3)
+			self.shiftBlock(self.twoxtwo['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.twoxtwo['H'], self.x + BLOCKLENGTH*3)
 
-	def movePieceRight(self):
-		if self.x < CENTER + BLOCKLENGTH:
+	def shiftRight(self):
+		if self.x < WIDTH - BLOCKLENGTH*4:
 			self.x += MOVMENT_CONSTANT
-			self.twoxtwo['C'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['C'].y)
-			self.twoxtwo['D'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['D'].y)
-			self.twoxtwo['G'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['G'].y)
-			self.twoxtwo['H'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['H'].y)
+			self.shiftBlock(self.twoxtwo['C'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.twoxtwo['D'], self.x + BLOCKLENGTH*3)
+			self.shiftBlock(self.twoxtwo['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.twoxtwo['H'], self.x + BLOCKLENGTH*3)
+
+class onexfour(piece):
+	def __init__(self, x, y):
+		piece.__init__(self, x, y)
+		self.onexfour = {'A':0, 'B':0, 'C':0, 'D':0}
+		piece.generatePiece(self, self.onexfour)
+
+	def fall(self):
+		if self.y > BOTTOM:
+			self.y -= MOVMENT_CONSTANT
+			self.fallBlock(self.onexfour['A'], self.y)
+			self.fallBlock(self.onexfour['B'], self.y)
+			self.fallBlock(self.onexfour['C'], self.y)
+			self.fallBlock(self.onexfour['D'], self.y)
+
+	def shiftLeft(self):
+		if self.x > 0:
+			self.x -= MOVMENT_CONSTANT
+			self.shiftBlock(self.onexfour['A'], self.x)
+			self.shiftBlock(self.onexfour['B'], self.x + BLOCKLENGTH)
+			self.shiftBlock(self.onexfour['C'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.onexfour['D'], self.x + BLOCKLENGTH*3)
+
+	def shiftRight(self):
+		if self.x < WIDTH - BLOCKLENGTH*4:
+			self.x += MOVMENT_CONSTANT
+			self.shiftBlock(self.onexfour['A'], self.x)
+			self.shiftBlock(self.onexfour['B'], self.x + BLOCKLENGTH)
+			self.shiftBlock(self.onexfour['C'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.onexfour['D'], self.x + BLOCKLENGTH*3)
+
 
 piece = twoxtwo(CENTER, TOP)
 
@@ -90,10 +128,10 @@ def fall(dt):
     piece.fall()
 
 def movePieceLeft():
-	piece.movePieceLeft()
+	piece.shiftLeft()
 
 def movePieceRight():
-	piece.movePieceRight()
+	piece.shiftRight()
 
 def rotatePiece():
 	piece.rotatePiece()
