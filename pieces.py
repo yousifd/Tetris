@@ -15,45 +15,39 @@ gameBatch = graphics.Batch()
 
 blockImage = image.load('block.png')
 
-blockSpriteA = sprite.Sprite(blockImage, x=WIDTH/2, y=HEIGHT)
-blockSpriteB = sprite.Sprite(blockImage, x=(WIDTH/2) + 36, y=HEIGHT)
-blockSpriteC = sprite.Sprite(blockImage, x=(WIDTH/2) + 36*2, y=HEIGHT)
-blockSpriteD = sprite.Sprite(blockImage, x=(WIDTH/2) + 36*3, y=HEIGHT)
-blockSpriteE = sprite.Sprite(blockImage, x=WIDTH/2, y=(HEIGHT - 36))
-blockSpriteF = sprite.Sprite(blockImage, x=(WIDTH/2) + 36, y=(HEIGHT - 36))
-blockSpriteG = sprite.Sprite(blockImage, x=(WIDTH/2) + 36*2, y=(HEIGHT - 36))
-blockSpriteH = sprite.Sprite(blockImage, x=(WIDTH/2) + 36*3, y=(HEIGHT - 36))
-
-y = HEIGHT #this is top of screen
-x = WIDTH / 2 #this is center of screen
-
 class piece(object):
 	def __init__(self, x, y):
-		self.block = {'A':blockSpriteA}
 		self.x = x
 		self.y = y
 
+	def generatePiece(self, dic):
+		for key in dic:
+			if key == 'A':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER, y=TOP, batch=gameBatch)
+			elif key == 'B':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH, y=TOP, batch=gameBatch)
+			elif key == 'C':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*2, y=TOP, batch=gameBatch)
+			elif key == 'D':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*3, y=TOP, batch=gameBatch)
+			elif key == 'E':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER, y=(TOP - BLOCKLENGTH), batch=gameBatch)
+			elif key == 'F':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH, y=(TOP - BLOCKLENGTH), batch=gameBatch)
+			elif key == 'G':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*2, y=(TOP - BLOCKLENGTH), batch=gameBatch)
+			elif key == 'H':
+				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*3, y=(TOP - BLOCKLENGTH), batch=gameBatch)
+			else:
+				print "Invalid Piece Key!"
+
 	def fall(self):
-		if self.y > BOTTOM:
-			self.y -= MOVMENT_CONSTANT
-			self.block['A'].set_position(x=self.x, y=self.y)
-		else:
-			self.y = HEIGHT
-		print 'Y:', self.y
 		return False
 
 	def movePieceLeft(self):
-		if self.x > 0:
-			self.x -= MOVMENT_CONSTANT
-			self.block['A'].set_position(x=self.x, y=self.y)
-		print 'X:', self.x
 		return False
 
 	def movePieceRight(self):
-		if self.x < WIDTH - MOVMENT_CONSTANT:
-			self.x += MOVMENT_CONSTANT
-			self.block['A'].set_position(x=self.x, y=self.y)
-		print 'X:', self.x
 		return False
 
 	def rotatePiece(self):
@@ -63,36 +57,34 @@ class piece(object):
 class twoxtwo(piece):
 	def __init__(self, x, y):
 		piece.__init__(self, x, y)
-		self.block = {'C':blockSpriteC, 'D':blockSpriteD, 'G':blockSpriteG, 'H':blockSpriteH}
-		gameBatch.add
+		self.twoxtwo= {'C':0, 'D':0, 'G':0, 'H':0}
+		piece.generatePiece(self, self.twoxtwo)
 
 	def fall(self):
-		if self.y > BOTTOM:
+		if self.y > BOTTOM + BLOCKLENGTH:
 			self.y -= MOVMENT_CONSTANT
-			self.block['C'].set_position(x=self.block['C'].x, y=self.y)
-			self.block['D'].set_position(x=self.block['D'].x, y=self.y)
-			self.block['G'].set_position(x=self.block['G'].x, y=(self.y - 36))
-			self.block['H'].set_position(x=self.block['H'].x, y=(self.y - 36))
-		else:
-			self.y = HEIGHT
+			self.twoxtwo['C'].set_position(x=self.twoxtwo['C'].x, y=self.y)
+			self.twoxtwo['D'].set_position(x=self.twoxtwo['D'].x, y=self.y)
+			self.twoxtwo['G'].set_position(x=self.twoxtwo['G'].x, y=(self.y - BLOCKLENGTH))
+			self.twoxtwo['H'].set_position(x=self.twoxtwo['H'].x, y=(self.y - BLOCKLENGTH))
 
 	def movePieceLeft(self):
-		if self.x > 0:
+		if self.x > 0 - 2*BLOCKLENGTH:
 			self.x -= MOVMENT_CONSTANT
-			self.block['C'].set_position(x=self.x + 36*2, y=self.block['C'].y)
-			self.block['D'].set_position(x=self.x + 36*3, y=self.block['D'].y)
-			self.block['G'].set_position(x=self.x + 36*2, y=self.block['G'].y)
-			self.block['H'].set_position(x=self.x + 36*3, y=self.block['H'].y)
+			self.twoxtwo['C'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['C'].y)
+			self.twoxtwo['D'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['D'].y)
+			self.twoxtwo['G'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['G'].y)
+			self.twoxtwo['H'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['H'].y)
 
 	def movePieceRight(self):
-		if self.x < WIDTH - MOVMENT_CONSTANT:
+		if self.x < CENTER + BLOCKLENGTH:
 			self.x += MOVMENT_CONSTANT
-			self.block['C'].set_position(x=self.x + 36*2, y=self.block['C'].y)
-			self.block['D'].set_position(x=self.x + 36*3, y=self.block['D'].y)
-			self.block['G'].set_position(x=self.x + 36*2, y=self.block['G'].y)
-			self.block['H'].set_position(x=self.x + 36*3, y=self.block['H'].y)
+			self.twoxtwo['C'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['C'].y)
+			self.twoxtwo['D'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['D'].y)
+			self.twoxtwo['G'].set_position(x=self.x + BLOCKLENGTH*2, y=self.twoxtwo['G'].y)
+			self.twoxtwo['H'].set_position(x=self.x + BLOCKLENGTH*3, y=self.twoxtwo['H'].y)
 
-piece = twoxtwo(x, y)
+piece = twoxtwo(CENTER, TOP)
 
 def fall(dt):
     piece.fall()

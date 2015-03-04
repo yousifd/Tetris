@@ -3,6 +3,11 @@ HEIGHT = 648
 MOVMENT_CONSTANT = 36
 BOTTOM = 0
 
+TOP = HEIGHT #this is top of screen
+CENTER = WIDTH / 2 #this is center of screen
+
+BLOCKLENGTH = 36
+
 PLAY_WIDTH = 263
 PLAY_HEIGHT = 73
 PLAY_BOUNDARYx = WIDTH/2 - 130
