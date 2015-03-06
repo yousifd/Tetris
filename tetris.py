@@ -1,4 +1,4 @@
-sfrom constants import *
+from constants import *
 from pieces import *
 
 import pyglet
