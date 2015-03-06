@@ -6,9 +6,11 @@
 #G C 
 #H D
 
-# make blocks
-# make function that randomly chooses blocks
 # Size of play area 10x18 blocks
+
+#You could possibly check the position of each block and divide it by 10 then 36 to get the column
+#then you would divide the position by 18 then 36 to get the row. From that information create
+#the array used to figure out the completion of lines and position of all the pieces.
 
 from constants import *
 
