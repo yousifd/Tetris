@@ -291,7 +291,7 @@ class J_shape(piece):
 			self.shiftBlock(self.J_shape['G'], self.x + 2*BLOCKLENGTH)
 
 	def shiftRight(self):
-		if self.x < WIDTH - BLOCKLENGTH*3:
+		if self.x < WIDTH - 3*BLOCKLENGTH:
 			self.x += MOVMENT_CONSTANT
 			self.shiftBlock(self.J_shape['A'], self.x)
 			self.shiftBlock(self.J_shape['B'], self.x + BLOCKLENGTH)
@@ -304,29 +304,72 @@ class Z_shape(piece):
 		self.Z_shape = {'A':0, 'B':0, 'F':0, 'G':0}
 		piece.generatePiece(self, self.Z_shape)
 
+		self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+		self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
+
 	def fall(self):
-		if self.y > BOTTOM + BLOCKLENGTH:
+		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
-			self.fallBlock(self.Z_shape['A'], self.y)
-			self.fallBlock(self.Z_shape['B'], self.y)
-			self.fallBlock(self.Z_shape['F'], self.y - BLOCKLENGTH)
-			self.fallBlock(self.Z_shape['G'], self.y - BLOCKLENGTH)
+			self.fallBlock(self.Z_shape['A'], self.y + self.ROTATE_CONSTANT_Ay,
+									self.x + self.ROTATE_CONSTANT_Ax)
+			self.fallBlock(self.Z_shape['B'], self.y, self.x + BLOCKLENGTH)
+			self.fallBlock(self.Z_shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy,
+									self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+			self.fallBlock(self.Z_shape['G'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Gy,
+									self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Gx)
 
 	def shiftLeft(self):
-		if self.x > 0:
+		if self.x > self.ROTATE_CONSTANT_LEFT:
 			self.x -= MOVMENT_CONSTANT
-			self.shiftBlock(self.Z_shape['A'], self.x)
+			self.shiftBlock(self.Z_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 			self.shiftBlock(self.Z_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.Z_shape['F'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.Z_shape['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.Z_shape['F'], self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+			self.shiftBlock(self.Z_shape['G'], self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Gx)
 
 	def shiftRight(self):
-		if self.x < WIDTH - BLOCKLENGTH*3:
+		if self.x < self.ROTATE_CONSTANT_RIGHT:
 			self.x += MOVMENT_CONSTANT
-			self.shiftBlock(self.Z_shape['A'], self.x)
+			self.shiftBlock(self.Z_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 			self.shiftBlock(self.Z_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.Z_shape['F'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.Z_shape['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.Z_shape['F'], self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+			self.shiftBlock(self.Z_shape['G'], self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Gx)
+
+	def rotatePiece(self):
+		if self.ROTATE_CONSTANT_Ax == 0:
+			self.ROTATE_CONSTANT_Ax = BLOCKLENGTH
+			self.ROTATE_CONSTANT_Ay = BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_Fx = -BLOCKLENGTH
+			self.ROTATE_CONSTANT_Fy = BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_Gx = -2*BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_BOTTOM += BLOCKLENGTH
+			self.ROTATE_CONSTANT_RIGHT = WIDTH - 2*BLOCKLENGTH
+			self.ROTATE_CONSTANT_LEFT = 0
+
+		else:
+			if self.ROTATE_CONSTANT_LEFT < self.x < self.ROTATE_CONSTANT_RIGHT:
+				self.ROTATE_CONSTANT_Ax = 0
+				self.ROTATE_CONSTANT_Ay = 0
+
+				self.ROTATE_CONSTANT_Fx = 0
+				self.ROTATE_CONSTANT_Fy = 0
+
+				self.ROTATE_CONSTANT_Gx = 0
+
+				self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
+				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+				self.ROTATE_CONSTANT_LEFT = 0
+
+		self.fallBlock(self.Z_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+							self.x + self.ROTATE_CONSTANT_Ax)
+
+		self.fallBlock(self.Z_shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy, 
+							self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+
+		self.fallBlock(self.Z_shape['G'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Gy,
+							self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Gx)
 #----------------------------------------------------------------------
 class S_shape(piece):
 	def __init__(self, x, y):
@@ -390,7 +433,7 @@ class T_shape(piece):
 #---------------------------------------------------------------------
 
 
-piece = I_shape(CENTER, TOP)
+piece = Z_shape(CENTER, TOP)
 
 def fall(dt):
     piece.fall()
