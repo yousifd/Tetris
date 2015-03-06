@@ -356,7 +356,7 @@ class J_shape(piece):
 			self.shiftBlock(self.J_shape['C'], self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Cx)
 			self.shiftBlock(self.J_shape['G'], self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Gx)
 
-		def rotatePiece(self):
+	def rotatePiece(self):
 
 	
 		if self.rotationNumber == 0:
@@ -366,8 +366,8 @@ class J_shape(piece):
 			self.ROTATE_CONSTANT_Cx = -BLOCKLENGTH
 			self.ROTATE_CONSTANT_Cy = -BLOCKLENGTH
 
-			self.ROTATE_CONSTANT_Ex = 0
-			self.ROTATE_CONSTANT_Ey = 2*BLOCKLENGTH
+			self.ROTATE_CONSTANT_Gx = -2*BLOCKLENGTH
+			self.ROTATE_CONSTANT_Gy = 0
 
 			
 			self.rotationNumber = 1
@@ -387,8 +387,8 @@ class J_shape(piece):
 				self.ROTATE_CONSTANT_Cx = -2*BLOCKLENGTH
 				self.ROTATE_CONSTANT_Cy = 0
 
-				self.ROTATE_CONSTANT_Ex = 2*BLOCKLENGTH
-				self.ROTATE_CONSTANT_Ey = 2*BLOCKLENGTH
+				self.ROTATE_CONSTANT_Gx = -2*BLOCKLENGTH
+				self.ROTATE_CONSTANT_Gy = 2*BLOCKLENGTH
 
 				self.ROTATE_CONSTANT_BOTTOM = BOTTOM 
 				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
@@ -407,8 +407,8 @@ class J_shape(piece):
 				self.ROTATE_CONSTANT_Cx = -BLOCKLENGTH
 				self.ROTATE_CONSTANT_Cy = BLOCKLENGTH
 
-				self.ROTATE_CONSTANT_Ex = 2*BLOCKLENGTH
-				self.ROTATE_CONSTANT_Ey = 0
+				self.ROTATE_CONSTANT_Gx = 0
+				self.ROTATE_CONSTANT_Gy = 2*BLOCKLENGTH
 
 				self.ROTATE_CONSTANT_BOTTOM = BOTTOM 
 				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
@@ -428,8 +428,8 @@ class J_shape(piece):
 				self.ROTATE_CONSTANT_Cx = 0
 				self.ROTATE_CONSTANT_Cy = 0
 
-				self.ROTATE_CONSTANT_Ex = 0
-				self.ROTATE_CONSTANT_Ey = 0
+				self.ROTATE_CONSTANT_Gx = 0
+				self.ROTATE_CONSTANT_Gy = 0
 
 				self.ROTATE_CONSTANT_BOTTOM = BOTTOM
 				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
@@ -446,8 +446,8 @@ class J_shape(piece):
 		self.fallBlock(self.J_shape['C'], self.y + self.ROTATE_CONSTANT_Cy, 
 							self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
 
-		self.fallBlock(self.J_shape['E'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Ey,
-							self.x + self.ROTATE_CONSTANT_Ex)
+		self.fallBlock(self.J_shape['G'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Gy,
+							self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Gx)
 #----------------------------------------------------------------------
 class Z_shape(piece):
 	def __init__(self, x, y):
@@ -627,7 +627,7 @@ class T_shape(piece):
 #---------------------------------------------------------------------
 
 
-piece = L_shape(CENTER, TOP)
+piece = J_shape(CENTER, TOP)
 
 def fall(dt):
     piece.fall()
