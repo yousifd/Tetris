@@ -434,6 +434,14 @@ class S_shape(piece):
 				self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
 				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
 				self.ROTATE_CONSTANT_LEFT = 0
+
+		self.fallBlock(self.S_shape['E'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Ey,
+							self.x + self.ROTATE_CONSTANT_Ex)
+		self.fallBlock(self.S_shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy,
+							self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+		self.fallBlock(self.S_shape['B'], self.y, self.x + BLOCKLENGTH)
+		self.fallBlock(self.S_shape['C'], self.y + self.ROTATE_CONSTANT_Cy,
+							self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Cx)
 #----------------------------------------------------------------------
 class T_shape(piece):
 	def __init__(self, x, y):
