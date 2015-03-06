@@ -25,6 +25,27 @@ class piece(object):
 		self.x = x
 		self.y = y
 
+		self.ROTATE_CONSTANT_Ax = 0
+		self.ROTATE_CONSTANT_Ay = 0
+
+		self.ROTATE_CONSTANT_Cx = 0
+		self.ROTATE_CONSTANT_Cy = 0
+
+		self.ROTATE_CONSTANT_Dx = 0
+		self.ROTATE_CONSTANT_Dy = 0
+
+		self.ROTATE_CONSTANT_Ex = 0
+		self.ROTATE_CONSTANT_Ey = 0
+
+		self.ROTATE_CONSTANT_Fx = 0
+		self.ROTATE_CONSTANT_Fy = 0
+
+		self.ROTATE_CONSTANT_Gx = 0
+		self.ROTATE_CONSTANT_Gy = 0
+
+		self.ROTATE_CONSTANT_BOTTOM = BOTTOM
+		self.ROTATE_CONSTANT_LEFT = 0
+
 	def generatePiece(self, dic):
 		for key in dic:
 			if key == 'A':
@@ -101,25 +122,22 @@ class I_shape(piece):
 		piece.__init__(self, x, y)
 		self.I_shape = {'A':0, 'B':0, 'C':0, 'D':0}
 		piece.generatePiece(self, self.I_shape) 
-		self.ROTATE_CONSTANT_Ax = 0
-		self.ROTATE_CONSTANT_Ay = 0
 
-		self.ROTATE_CONSTANT_Cx = 0
-		self.ROTATE_CONSTANT_Cy = 0
-
-		self.ROTATE_CONSTANT_Dx = 0
-		self.ROTATE_CONSTANT_Dy = 0
+		self.ROTATE_CONSTANT_RIGHT = WIDTH - BLOCKLENGTH*4
 
 	def fall(self):
-		if self.y > BOTTOM:
+		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
-			self.fallBlock(self.I_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, self.x + self.ROTATE_CONSTANT_Ax)
+			self.fallBlock(self.I_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+								self.x + self.ROTATE_CONSTANT_Ax)
 			self.fallBlock(self.I_shape['B'], self.y, self.x + BLOCKLENGTH)
-			self.fallBlock(self.I_shape['C'], self.y + self.ROTATE_CONSTANT_Cy, self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
-			self.fallBlock(self.I_shape['D'], self.y + self.ROTATE_CONSTANT_Dy, self.x + BLOCKLENGTH*3 + self.ROTATE_CONSTANT_Dx)
+			self.fallBlock(self.I_shape['C'], self.y + self.ROTATE_CONSTANT_Cy, 
+								self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+			self.fallBlock(self.I_shape['D'], self.y + self.ROTATE_CONSTANT_Dy,
+								self.x + BLOCKLENGTH*3 + self.ROTATE_CONSTANT_Dx)
 
 	def shiftLeft(self):
-		if self.x > 0:
+		if self.x > self.ROTATE_CONSTANT_LEFT:
 			self.x -= MOVMENT_CONSTANT
 			self.shiftBlock(self.I_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 			self.shiftBlock(self.I_shape['B'], self.x + BLOCKLENGTH)
@@ -127,7 +145,7 @@ class I_shape(piece):
 			self.shiftBlock(self.I_shape['D'], self.x + BLOCKLENGTH*3 + self.ROTATE_CONSTANT_Dx)
 
 	def shiftRight(self):
-		if self.x < WIDTH - BLOCKLENGTH*4:
+		if self.x < self.ROTATE_CONSTANT_RIGHT:
 			self.x += MOVMENT_CONSTANT
 			self.shiftBlock(self.I_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 			self.shiftBlock(self.I_shape['B'], self.x + BLOCKLENGTH)
@@ -145,76 +163,140 @@ class I_shape(piece):
 			self.ROTATE_CONSTANT_Dx = -2*BLOCKLENGTH
 			self.ROTATE_CONSTANT_Dy = -2*BLOCKLENGTH
 
+			self.ROTATE_CONSTANT_BOTTOM += 2*BLOCKLENGTH
+			self.ROTATE_CONSTANT_RIGHT = WIDTH - 2*BLOCKLENGTH
+			self.ROTATE_CONSTANT_LEFT = -BLOCKLENGTH
+
 		else:
-			self.ROTATE_CONSTANT_Ax = 0
-			self.ROTATE_CONSTANT_Ay = 0
+			if self.ROTATE_CONSTANT_LEFT < self.x < self.ROTATE_CONSTANT_RIGHT - BLOCKLENGTH:
+				self.ROTATE_CONSTANT_Ax = 0
+				self.ROTATE_CONSTANT_Ay = 0
 
-			self.ROTATE_CONSTANT_Cx = 0
-			self.ROTATE_CONSTANT_Cy = 0
+				self.ROTATE_CONSTANT_Cx = 0
+				self.ROTATE_CONSTANT_Cy = 0
 
-			self.ROTATE_CONSTANT_Dx = 0
-			self.ROTATE_CONSTANT_Dy = 0
+				self.ROTATE_CONSTANT_Dx = 0
+				self.ROTATE_CONSTANT_Dy = 0
+
+				self.ROTATE_CONSTANT_BOTTOM = BOTTOM
+				self.ROTATE_CONSTANT_RIGHT = WIDTH - 4*BLOCKLENGTH
+				self.ROTATE_CONSTANT_LEFT = 0
+
+		self.fallBlock(self.I_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+							self.x + self.ROTATE_CONSTANT_Ax)
+
+		self.fallBlock(self.I_shape['C'], self.y + self.ROTATE_CONSTANT_Cy, 
+							self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+
+		self.fallBlock(self.I_shape['D'], self.y + self.ROTATE_CONSTANT_Dy,
+							self.x + BLOCKLENGTH*3 + self.ROTATE_CONSTANT_Dx)
 
 #----------------------------------------------------------------------			
 class L_shape(piece):
 	def __init__(self, x, y):
 		piece.__init__(self, x, y)
-		self.L_shape = {'A':0, 'B':0, 'C':0, 'E':0}
+		self.L_shape = {'E':0, 'A':0, 'B':0, 'C':0}
 		piece.generatePiece(self, self.L_shape)
+
+		self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
 
 	def fall(self):
 		if self.y > BOTTOM + BLOCKLENGTH:
 			self.y -= MOVMENT_CONSTANT
-			self.fallBlock(self.L_shape['A'], self.y)
-			self.fallBlock(self.L_shape['B'], self.y)
-			self.fallBlock(self.L_shape['C'], self.y)
-			self.fallBlock(self.L_shape['E'], self.y - BLOCKLENGTH)
+			self.fallBlock(self.L_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+									self.x + self.ROTATE_CONSTANT_Ax)
+			self.fallBlock(self.L_shape['B'], self.y, self.x)
+			self.fallBlock(self.L_shape['C'], self.y + self.ROTATE_CONSTANT_Cy,
+									self.x + self.ROTATE_CONSTANT_Cx)
+			self.fallBlock(self.L_shape['E'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Ey, 
+									self.x + self.ROTATE_CONSTANT_Ex)
 
 	def shiftLeft(self):
 		if self.x > 0:
 			self.x -= MOVMENT_CONSTANT
-			self.shiftBlock(self.L_shape['A'], self.x)
+			self.shiftBlock(self.L_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 			self.shiftBlock(self.L_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.L_shape['C'], self.x + BLOCKLENGTH*2)
-			self.shiftBlock(self.L_shape['E'], self.x)
+			self.shiftBlock(self.L_shape['C'], self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+			self.shiftBlock(self.L_shape['E'], self.x + self.ROTATE_CONSTANT_Ex)
 
 	def shiftRight(self):
 		if self.x < WIDTH - BLOCKLENGTH*3:
 			self.x += MOVMENT_CONSTANT
-			self.shiftBlock(self.L_shape['A'], self.x)
+			self.shiftBlock(self.L_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 			self.shiftBlock(self.L_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.L_shape['C'], self.x + BLOCKLENGTH*2)
-			self.shiftBlock(self.L_shape['E'], self.x)
+			self.shiftBlock(self.L_shape['C'], self.x + BLOCKLENGTH*2 +self.ROTATE_CONSTANT_Cx)
+			self.shiftBlock(self.L_shape['E'], self.x + self.ROTATE_CONSTANT_Ex)
+
+	def rotatePiece(self):
+		if self.ROTATE_CONSTANT_Ax == 0:
+			self.ROTATE_CONSTANT_Ax = BLOCKLENGTH
+			self.ROTATE_CONSTANT_Ay = BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_Cx = -BLOCKLENGTH
+			self.ROTATE_CONSTANT_Cy = -BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_Ey = BLOCKLENGTH
+
+			#WE ARE WHO WE ARE
+			#DO NOT FORGET OTHER 
+			self.ROTATE_CONSTANT_LEFT = -BLOCKLENGTH
+			self.ROTATE_CONSTANT_BOTTOM += BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_RIGHT = WIDTH - 2*BLOCKLENGTH
+
+		else:
+			if self.ROTATE_CONSTANT_LEFT < self.x < self.ROTATE_CONSTANT_RIGHT - BLOCKLENGTH:
+				self.ROTATE_CONSTANT_Ax = 0
+				self.ROTATE_CONSTANT_Ay = 0
+
+				self.ROTATE_CONSTANT_Cx = 0
+				self.ROTATE_CONSTANT_Cy = 0
+
+				self.ROTATE_CONSTANT_Ex = 0
+				self.ROTATE_CONSTANT_Ey = 0
+
+				self.ROTATE_CONSTANT_BOTTOM = BOTTOM
+				self.ROTATE_CONSTANT_RIGHT = WIDTH - 4*BLOCKLENGTH
+				self.ROTATE_CONSTANT_LEFT = 0
+
+		self.fallBlock(self.I_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+							self.x + self.ROTATE_CONSTANT_Ax)
+
+		self.fallBlock(self.I_shape['C'], self.y + self.ROTATE_CONSTANT_Cy, 
+							self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+
+		self.fallBlock(self.I_shape['D'], self.y + self.ROTATE_CONSTANT_Dy,
+							self.x + BLOCKLENGTH*3 + self.ROTATE_CONSTANT_Dx)
 #----------------------------------------------------------------------
 class J_shape(piece):
 	def __init__(self, x, y):
 		piece.__init__(self, x, y)
-		self.J_shape = {'A':0, 'E':0, 'F':0, 'G':0}
+		self.J_shape = {'A':0, 'B':0, 'C':0, 'G':0}
 		piece.generatePiece(self, self.J_shape)
 
 	def fall(self):
 		if self.y > BOTTOM + BLOCKLENGTH:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.J_shape['A'], self.y)
-			self.fallBlock(self.J_shape['E'], self.y - BLOCKLENGTH)
-			self.fallBlock(self.J_shape['F'], self.y - BLOCKLENGTH)
+			self.fallBlock(self.J_shape['B'], self.y)
+			self.fallBlock(self.J_shape['C'], self.y)
 			self.fallBlock(self.J_shape['G'], self.y - BLOCKLENGTH)
 
 	def shiftLeft(self):
 		if self.x > 0:
 			self.x -= MOVMENT_CONSTANT
 			self.shiftBlock(self.J_shape['A'], self.x)
-			self.shiftBlock(self.J_shape['E'], self.x)
-			self.shiftBlock(self.J_shape['F'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.J_shape['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.J_shape['B'], self.x + BLOCKLENGTH)
+			self.shiftBlock(self.J_shape['C'], self.x + 2*BLOCKLENGTH)
+			self.shiftBlock(self.J_shape['G'], self.x + 2*BLOCKLENGTH)
 
 	def shiftRight(self):
 		if self.x < WIDTH - BLOCKLENGTH*3:
 			self.x += MOVMENT_CONSTANT
 			self.shiftBlock(self.J_shape['A'], self.x)
-			self.shiftBlock(self.J_shape['E'], self.x)
-			self.shiftBlock(self.J_shape['F'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.J_shape['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.J_shape['B'], self.x + BLOCKLENGTH)
+			self.shiftBlock(self.J_shape['C'], self.x + 2*BLOCKLENGTH)
+			self.shiftBlock(self.J_shape['G'], self.x + 2*BLOCKLENGTH)
 #----------------------------------------------------------------------
 class Z_shape(piece):
 	def __init__(self, x, y):
