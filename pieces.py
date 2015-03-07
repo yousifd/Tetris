@@ -598,36 +598,135 @@ class S_shape(piece):
 class T_shape(piece):
 	def __init__(self, x, y):
 		piece.__init__(self, x, y)
-		self.T_shape = {'B':0, 'E':0, 'F':0, 'G':0}
+		self.T_shape = {'A':0, 'B':0, 'C':0, 'F':0}
 		piece.generatePiece(self, self.T_shape)
 
+		self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+		self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
+
 	def fall(self):
-		if self.y > BOTTOM + BLOCKLENGTH:
+		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
-			self.fallBlock(self.T_shape['B'], self.y)
-			self.fallBlock(self.T_shape['E'], self.y - BLOCKLENGTH)
-			self.fallBlock(self.T_shape['F'], self.y - BLOCKLENGTH)
-			self.fallBlock(self.T_shape['G'], self.y - BLOCKLENGTH)
+			self.fallBlock(self.T_shape['B'], self.y, self.x + BLOCKLENGTH)
+			self.fallBlock(self.T_shape['C'], self.y + self.ROTATE_CONSTANT_Cy,
+											self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Cx)
+			self.fallBlock(self.T_shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy, 
+											self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+			self.fallBlock(self.T_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+											self.x + self.ROTATE_CONSTANT_Ax)
 
 	def shiftLeft(self):
-		if self.x > 0:
+		if self.x > self.ROTATE_CONSTANT_LEFT:
 			self.x -= MOVMENT_CONSTANT
 			self.shiftBlock(self.T_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.T_shape['E'], self.x)
-			self.shiftBlock(self.T_shape['F'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.T_shape['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.T_shape['C'], self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Cx)
+			self.shiftBlock(self.T_shape['F'], self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+			self.shiftBlock(self.T_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
 
 	def shiftRight(self):
-		if self.x < WIDTH - BLOCKLENGTH*3:
+		if self.x < self.ROTATE_CONSTANT_RIGHT:
 			self.x += MOVMENT_CONSTANT
 			self.shiftBlock(self.T_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.T_shape['E'], self.x)
-			self.shiftBlock(self.T_shape['F'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.T_shape['G'], self.x + BLOCKLENGTH*2)
+			self.shiftBlock(self.T_shape['C'], self.x + 2*BLOCKLENGTH + self.ROTATE_CONSTANT_Cx)
+			self.shiftBlock(self.T_shape['F'], self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
+			self.shiftBlock(self.T_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
+
+	def rotatePiece(self):
+
+	
+		if self.rotationNumber == 0:
+			self.ROTATE_CONSTANT_Ax = BLOCKLENGTH
+			self.ROTATE_CONSTANT_Ay = BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_Cx = -BLOCKLENGTH
+			self.ROTATE_CONSTANT_Cy = -BLOCKLENGTH
+
+			self.ROTATE_CONSTANT_Fx = -BLOCKLENGTH
+			self.ROTATE_CONSTANT_Fy = BLOCKLENGTH
+
+			
+			self.rotationNumber = 1
+			self.ROTATE_CONSTANT_BOTTOM = BOTTOM 
+			self.ROTATE_CONSTANT_RIGHT = WIDTH - 2*BLOCKLENGTH
+			self.ROTATE_CONSTANT_LEFT = 0
+			
+				#   A
+				# F B
+				#   C
+
+		elif self.rotationNumber == 1:
+			if self.ROTATE_CONSTANT_LEFT < self.x < self.ROTATE_CONSTANT_RIGHT:
+				self.ROTATE_CONSTANT_Ax = 2*BLOCKLENGTH
+				self.ROTATE_CONSTANT_Ay = 0
+
+				self.ROTATE_CONSTANT_Cx = -2*BLOCKLENGTH
+				self.ROTATE_CONSTANT_Cy = 0
+
+				self.ROTATE_CONSTANT_Fx = 0
+				self.ROTATE_CONSTANT_Fy = 2*BLOCKLENGTH
+
+				self.ROTATE_CONSTANT_BOTTOM = BOTTOM 
+				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+				self.ROTATE_CONSTANT_LEFT = 0
+
+				self.rotationNumber = 2
+
+					#   F
+					# C B A
+	
+		elif self.rotationNumber == 2:
+			if self.ROTATE_CONSTANT_LEFT < self.x < self.ROTATE_CONSTANT_RIGHT:
+				self.ROTATE_CONSTANT_Ax = BLOCKLENGTH
+				self.ROTATE_CONSTANT_Ay = -BLOCKLENGTH
+
+				self.ROTATE_CONSTANT_Cx = -BLOCKLENGTH
+				self.ROTATE_CONSTANT_Cy = BLOCKLENGTH
+
+				self.ROTATE_CONSTANT_Fx = BLOCKLENGTH
+				self.ROTATE_CONSTANT_Fy = BLOCKLENGTH
+
+				self.ROTATE_CONSTANT_BOTTOM = BOTTOM 
+				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+				self.ROTATE_CONSTANT_LEFT = -BLOCKLENGTH
+
+				self.rotationNumber = 3
+
+					# C 
+					# B F
+					# A 
+
+		elif self.rotationNumber == 3:
+			if self.ROTATE_CONSTANT_LEFT < self.x < self.ROTATE_CONSTANT_RIGHT:
+				self.ROTATE_CONSTANT_Ax = 0
+				self.ROTATE_CONSTANT_Ay = 0
+
+				self.ROTATE_CONSTANT_Cx = 0
+				self.ROTATE_CONSTANT_Cy = 0
+
+				self.ROTATE_CONSTANT_Fx = 0
+				self.ROTATE_CONSTANT_Fy = 0
+
+				self.ROTATE_CONSTANT_BOTTOM = BOTTOM
+				self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+				self.ROTATE_CONSTANT_LEFT = 0
+
+				self.rotationNumber = 0
+
+					#A B C
+					#  F 
+
+		self.fallBlock(self.T_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+							self.x + self.ROTATE_CONSTANT_Ax)
+
+		self.fallBlock(self.T_shape['C'], self.y + self.ROTATE_CONSTANT_Cy, 
+							self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+
+		self.fallBlock(self.T_shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy,
+							self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
 #---------------------------------------------------------------------
 
 
-piece = J_shape(CENTER, TOP)
+piece = T_shape(CENTER, TOP)
 
 def fall(dt):
     piece.fall()
