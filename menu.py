@@ -19,6 +19,11 @@ class Image(object):
 	#TODO<yousif>: You might only need to define this here and not in each object of image
 		pass
 
+class Title(Image):
+	def animate(self, image):
+	#TODO<youisf>: image could be gif
+		pass
+
 class Button(Image):
 	def ifAbove(self, xMouse, yMouse):
 		#figure out the x and y boundaries of the button
@@ -30,10 +35,8 @@ class Button(Image):
 	#TODO<youisf>: image could be gif
 		pass
 
-class Title(Image):
-	def animate(self, image):
-	#TODO<youisf>: image could be gif
-		pass
+class Centerbutton(Button):
+	pass
 
 class Menu(object):
 	#TODO<yousif>:What is the reference to the positiong of the menu items
@@ -41,6 +44,8 @@ class Menu(object):
 	#				Button: Based on Number of Buttons and type of menu
 	#				MainMenu: Center
 	#				PauseMenu: Depends
+	#				OptionsMenu?
+
 	def __init__(self, width, height):
 		self.batch = graphics.Batch()
 		self.title = None
