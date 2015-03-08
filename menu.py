@@ -46,7 +46,8 @@ class Menu(object):
 	def draw(self):
 		self.batch.draw()
 
-	def deleteMenu(self):
-		self.title.deleteSprite()
+	def delete(self):
+		if self.title != None:
+			self.title.deleteSprite()
 		for button in self.buttons:
 			button.deleteSprite()
