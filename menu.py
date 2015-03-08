@@ -10,14 +10,18 @@ class Image(object):
 		self.imageWidth = self.image.width
 		self.imageHeight = self.image.height
 		self.sprite = sprite.Sprite(self.image, x=xPos, y=yPos, batch=batch)
-		self.animation = animation
+		self.animate = animation
 
 	def deleteSprite(self):
 		self.sprite.delete()
 
 	def animate(self):
 	#TODO<yousif>: You might only need to define this here and not in each object of image
-		pass
+		if self.animate == None:
+			pass
+		else:
+			print 'Aniamte'
+			pass
 
 class Title(Image):
 	def animate(self, image):
@@ -38,6 +42,9 @@ class Button(Image):
 class Centerbutton(Button):
 	pass
 
+
+#What do: cereate button inside menu or outside?
+
 class Menu(object):
 	#TODO<yousif>:What is the reference to the positiong of the menu items
 	#				Title: TOP/CENTER
@@ -56,8 +63,6 @@ class Menu(object):
 
 	def addButton(self, image, xPos, yPos):
 		self.buttons.append(Button(image, xPos, yPos, batch=self.batch))
-
-	#How to check if button is being clicked all the time? without lag inside menu
 
 	def draw(self):
 		self.batch.draw()
