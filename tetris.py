@@ -9,7 +9,7 @@ from pyglet import clock
 
 gameStart = False
 
-#create a window
+#TODO<yousif>: Possibly Create Window class that has everything related to a window
 window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
 
 def quit():
