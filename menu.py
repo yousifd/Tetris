@@ -43,6 +43,8 @@ class Menu(object):
 	def addButton(self, image, xPos, yPos):
 		self.buttons.append(Button(image, xPos, yPos, batch=self.batch))
 
+	#How to check if button is being clicked all the time? without lag
+
 	def draw(self):
 		self.batch.draw()
 

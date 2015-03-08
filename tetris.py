@@ -32,7 +32,6 @@ def on_mouse_press(x, y, button, modifiers):
             if PLAY_BOUNDARYx <= x <= (PLAY_BOUNDARYx+PLAY_WIDTH) and PLAY_BOUNDARYy <= y <= (PLAY_BOUNDARYy+PLAY_HEIGHT):
                 gameStart = True
                 clock.schedule_interval(fall, 1) 
-                #titleSprite.delete()
                 mainMenu.delete()
             elif QUIT_BOUNDARYx <= x <= QUIT_BOUNDARYx+QUIT_WIDTH and QUIT_BOUNDARYy <= y <= QUIT_BOUNDARYy+QUIT_HEIGHT:
                 quit()
@@ -51,4 +50,5 @@ def on_key_press(symbol, modifiers):
 	    window.close()
 	    pyglet.app.exit()
 
-pyglet.app.run()
+def game():
+    pyglet.app.run()
