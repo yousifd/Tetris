@@ -4,6 +4,10 @@ from pyglet import graphics
 from pyglet import image as pygletImage
 from pyglet import sprite
 
+# work on creating a resource file that you go to for all resources
+# Try creating a list menu that is a subclass of menu!
+# Try creating a circular menu that is a subclass of menu!
+
 class Image(object):
 	def __init__(self, image, xPos, yPos, batch, animation=None):
 		self.name = image.split('.')[0]
@@ -90,8 +94,6 @@ class Menu(object):
 
 	def addCenterButton(self, image, margine=0):
 		self.addButton(image, self.width/2 + self.x, self.height/2 + self.y + self.buttonShift)
-		# Move the buttons based on the number of buttons in addition to a margine 
-		# from top to bottom
 		self.buttonShift -= self.buttons[-1].getHeight() + margine
 
 	def getButton(self, name):

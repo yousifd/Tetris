@@ -27,18 +27,12 @@ def on_mouse_press(x, y, button, modifiers):
     global gameStart
     
     if button == mouse.LEFT:
-        print 'Left Button Clicked'
         if not gameStart:
-            print 'Game not Started Yet'
-            print mainMenu.ifAbove('play', x, y)
-            print mainMenu.ifAbove('quit', x, y)
             if mainMenu.ifAbove('play', x, y):
-                print 'Game Started'
                 gameStart = True
                 clock.schedule_interval(fall, 1) 
                 mainMenu.delete()
             elif mainMenu.ifAbove('quit', x, y):
-                print 'Game Quit'
                 quit()
                   
 @window.event

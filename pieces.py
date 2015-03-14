@@ -12,6 +12,8 @@
 # # then you would divide the position by 18 then 36 to get the row. From that information create
 # # the array used to figure out the completion of lines and position of all the pieces.
 
+# We could have used the rotate attribute for sprite, sigh !
+
 from constants import *
 
 from pyglet import graphics
