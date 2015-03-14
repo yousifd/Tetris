@@ -1,6 +1,3 @@
-
-#CLEAN UP THE FREAKING CODE OR THIS WILL BE THE END OF YOU
-
 from constants import *
 
 from pyglet import graphics
@@ -11,22 +8,39 @@ class Image(object):
 	def __init__(self, image, xPos, yPos, batch, animation=None):
 		self.name = image.split('.')[0]
 		self.image = pygletImage.load(image)
-		self.imageWidth = self.image.width
-		self.imageHeight = self.image.height
+		self.width = self.image.width
+		self.height = self.image.height
+		self.image.anchor_x = self.width/2
+		self.image.anchor_y = self.height/2
 		self.sprite = sprite.Sprite(self.image, x=xPos, y=yPos, batch=batch)
 		self.animate = animation
 
-	def getImageName(self):
+	def getName(self):
 		return self.name
 
-	def getImageWidth(self):
-		return self.imageWidth
+	def getWidth(self):
+		return self.width
 
-	def getImageHeight(self):
-		return self.imageHeight
+	def getHeight(self):
+		return self.height
+
+	def getAnchor_x(self):
+		return self.image.anchor_x
+
+	def getAnchor_y(self):
+		return self.image.anchor_y
+
+	def getX(self):
+		return self.sprite.x
+
+	def getY(self):
+		return self.sprite.y
 
 	def deleteSprite(self):
 		self.sprite.delete()
+
+	# Add more Functionality to image:
+	#	- Resize
 
 	def animate(self):
 		'''Switches between image and animate to create animation,
@@ -36,28 +50,27 @@ class Image(object):
 			pass
 		else:
 			self.image=pygletImage.load(self.aniamte)
-			#figure out how to return to original image
+			#figure out how to return to original image if not .gif
 
 class Title(Image):
 	pass
 
 class Button(Image):
 	def ifAbove(self, x, y):
-		#figure out the x and y boundaries of the button
-		xBoundary = 0
-		yBoundary = 0
-		return (xBoundary <= x <= (xBoundary + self.imageWidth)) and (yBoundary <= y <= (yBoundary + self.imageHeight))
+		leftBoundary = self.getX() - self.getAnchor_x()
+		rightBoundary = self.getX() + self.getAnchor_x()
+		bottomBoundary = self.getY() - self.getAnchor_y()
+		topBoundary = self.getY() + self.getAnchor_y()
+		return ((leftBoundary <= x <= rightBoundary) and (bottomBoundary <= y <= topBoundary))
+
 
 class Menu(object):
-	#TODO<yousif>:What is the reference to the positiong of the menu items
-
-	#need variable for the parameter of the freaking menu position on window
-	#basically a constant used to figure out the position of the menu contents
-	def __init__(self, menuWidth, menuHeight):
+	def __init__(self, menuWidth, menuHeight, x=0, y=0):
 		'''Menu Width: width of menu
 		   Menu Height: height of menu
-		   Used as a relative for the position of the 
-		   title and buttons
+		   #used as relative positioning for buttons
+		   x: Position of menu Horizontally inside of the window
+		   y: Position of menu Vertically inside of the window
 
 		   buttonShift: the shift of buttons from mid heigth'''
 		self.batch = graphics.Batch()
@@ -65,23 +78,29 @@ class Menu(object):
 		self.buttons = []
 		self.width = menuWidth
 		self.height = menuHeight
+		self.x = x
+		self.y = y
 		self.buttonShift = 0
 
-	#add getButton() to use with ifAbove method
-	#add ifAbove function for menus that use getButton()
-
 	def addTitle(self, image, xPos, yPos):
-		self.title = Title(image, xPos, yPos, batch=self.batch)
+		self.title = Title(image, xPos + self.x, yPos + self.y, self.batch)
 
 	def addButton(self, image, xPos, yPos):
-		self.buttons.append(Button(image, xPos, yPos, batch=self.batch))
+		self.buttons.append(Button(image, xPos + self.x, yPos + self.y, self.batch))
 
-	def addCenterButton(self, image):
-		##buttons are positioned based on the left-bottom most point in image
-		#change xpos and ypos based on the number of buttons: use a new function
-		self.addButton(image, self.width/2, self.height/2 + self.buttonShift)
-		#move the buttons based on the number of buttons
-		self.buttonShift -= self.buttons[-1].getImageHeight()
+	def addCenterButton(self, image, margine=0):
+		self.addButton(image, self.width/2 + self.x, self.height/2 + self.y + self.buttonShift)
+		# Move the buttons based on the number of buttons in addition to a margine 
+		# from top to bottom
+		self.buttonShift -= self.buttons[-1].getHeight() + margine
+
+	def getButton(self, name):
+		for button in self.buttons:
+			if button.getName() == name:
+				return button
+
+	def ifAbove(self, name, x, y):
+		return self.getButton(name).ifAbove(x, y)
 
 	def draw(self):
 		self.batch.draw()

@@ -14,7 +14,7 @@ def mainMenu():
 	# mainMenu.addButton('play.png', PLAY_BOUNDARYx, PLAY_BOUNDARYy)
 	# mainMenu.addButton('quit.png', QUIT_BOUNDARYx, QUIT_BOUNDARYy)
 
-	mainMenu.addCenterButton('play.png')
+	mainMenu.addCenterButton('play.png', 15)
 	mainMenu.addCenterButton('quit.png')
 
 	return mainMenu

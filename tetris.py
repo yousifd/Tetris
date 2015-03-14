@@ -5,6 +5,7 @@ from pieces import *
 from pyglet import app
 from pyglet import clock
 
+#move this later inside the game method or class
 gameStart = False
 
 #move this later inside the game method or class
@@ -26,12 +27,18 @@ def on_mouse_press(x, y, button, modifiers):
     global gameStart
     
     if button == mouse.LEFT:
+        print 'Left Button Clicked'
         if not gameStart:
-            if PLAY_BOUNDARYx <= x <= (PLAY_BOUNDARYx+PLAY_WIDTH) and PLAY_BOUNDARYy <= y <= (PLAY_BOUNDARYy+PLAY_HEIGHT):
+            print 'Game not Started Yet'
+            print mainMenu.ifAbove('play', x, y)
+            print mainMenu.ifAbove('quit', x, y)
+            if mainMenu.ifAbove('play', x, y):
+                print 'Game Started'
                 gameStart = True
                 clock.schedule_interval(fall, 1) 
                 mainMenu.delete()
-            elif QUIT_BOUNDARYx <= x <= QUIT_BOUNDARYx+QUIT_WIDTH and QUIT_BOUNDARYy <= y <= QUIT_BOUNDARYy+QUIT_HEIGHT:
+            elif mainMenu.ifAbove('quit', x, y):
+                print 'Game Quit'
                 quit()
                   
 @window.event
