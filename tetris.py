@@ -2,19 +2,17 @@ from constants import *
 from mainmenu import *
 from pieces import *
 
-import pyglet
-from pyglet.window import key
-from pyglet.window import mouse
+from pyglet import app
 from pyglet import clock
 
 gameStart = False
 
-#TODO<yousif>: Possibly Create Window class that has everything related to a window
-window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
+#move this later inside the game method or class
+mainMenu = mainMenu()
 
 def quit():
     window.close()
-    pyglet.app.exit() 
+    app.exit() 
 
 @window.event
 def on_draw():
@@ -48,7 +46,7 @@ def on_key_press(symbol, modifiers):
         rotatePiece()
     elif symbol == key.ESCAPE:
 	    window.close()
-	    pyglet.app.exit()
+	    app.exit()
 
 def game():
-    pyglet.app.run()
+    app.run()

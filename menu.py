@@ -50,11 +50,6 @@ class Button(Image):
 
 class Menu(object):
 	#TODO<yousif>:What is the reference to the positiong of the menu items
-	#				Title: TOP/CENTER
-	#				Button: Based on Number of Buttons and type of menu
-	#				MainMenu: Center
-	#				PauseMenu: Depends
-	#				OptionsMenu?
 
 	#need variable for the parameter of the freaking menu position on window
 	#basically a constant used to figure out the position of the menu contents
