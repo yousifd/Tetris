@@ -20,7 +20,8 @@ def on_draw():
     window.clear() 
     if not gameStart:
         mainMenu.draw()
-    gameBatch.draw()
+    else:
+        gameBatch.draw()
         
 @window.event
 def on_mouse_press(x, y, button, modifiers):
