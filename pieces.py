@@ -68,11 +68,11 @@ class piece(object):
 
 	def position(self, block):
 		if block == 'left':
-			return self.left
+			return self.x
 		elif block == 'below':
-			return self.below
+			return self.y
 		elif block == 'right':
-			return self.right
+			return self.x
 
 	def fall(self):
 		return False
@@ -94,7 +94,6 @@ class O_shape(piece):
 		piece.generatePiece(self, self.O_shape)
 
 	def fall(self):
-		if self.y > BOTTOM + BLOCKLENGTH:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.O_shape['C'], self.y)
 			self.fallBlock(self.O_shape['D'], self.y)
@@ -126,7 +125,6 @@ class I_shape(piece):
 		self.ROTATE_CONSTANT_RIGHT = WIDTH - BLOCKLENGTH*4
 
 	def fall(self):
-		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.I_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
 								self.x + self.ROTATE_CONSTANT_Ax)
@@ -201,7 +199,6 @@ class L_shape(piece):
 		self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
 
 	def fall(self):
-		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.L_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
 									self.x + self.ROTATE_CONSTANT_Ax)
@@ -327,7 +324,6 @@ class J_shape(piece):
 		piece.generatePiece(self, self.J_shape)
 
 	def fall(self):
-		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.J_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
 												self.x + self.ROTATE_CONSTANT_Ax)
@@ -456,7 +452,6 @@ class Z_shape(piece):
 		self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
 
 	def fall(self):
-		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.Z_shape['A'], self.y + self.ROTATE_CONSTANT_Ay,
 									self.x + self.ROTATE_CONSTANT_Ax)
@@ -529,7 +524,6 @@ class S_shape(piece):
 		self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
 
 	def fall(self):
-		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.S_shape['E'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Ey,
 								self.x + self.ROTATE_CONSTANT_Ex)
@@ -602,7 +596,6 @@ class T_shape(piece):
 		self.ROTATE_CONSTANT_BOTTOM = BLOCKLENGTH
 
 	def fall(self):
-		if self.y > self.ROTATE_CONSTANT_BOTTOM:
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.T_shape['B'], self.y, self.x + BLOCKLENGTH)
 			self.fallBlock(self.T_shape['C'], self.y + self.ROTATE_CONSTANT_Cy,
