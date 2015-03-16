@@ -1,6 +1,6 @@
 from constants import *
 from mainmenu import *
-from pieces import *
+from board import *
 
 from pyglet import app
 from pyglet import clock
@@ -10,6 +10,8 @@ gameStart = False
 
 #move this later inside the game method or class
 mainMenu = mainMenu()
+
+piece = T_shape(CENTER, TOP)
 
 def quit():
     window.close()
@@ -31,7 +33,7 @@ def on_mouse_press(x, y, button, modifiers):
         if not gameStart:
             if mainMenu.ifAbove('play', x, y):
                 gameStart = True
-                clock.schedule_interval(fall, 1) 
+                clock.schedule_interval(fall, 1, piece=piece) 
                 mainMenu.delete()
             elif mainMenu.ifAbove('quit', x, y):
                 quit()
@@ -39,13 +41,13 @@ def on_mouse_press(x, y, button, modifiers):
 @window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.LEFT:
-        movePieceLeft()
+        movePieceLeft(piece)
     elif symbol == key.RIGHT:
-        movePieceRight()
+        movePieceRight(piece)
     elif symbol == key.DOWN:
-        fall(0)
+        fall(0, piece)
     elif symbol == key.UP:
-        rotatePiece()
+        rotatePiece(piece)
     elif symbol == key.ESCAPE:
 	    window.close()
 	    app.exit()

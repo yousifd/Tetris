@@ -52,32 +52,27 @@ class piece(object):
 
 		self.rotationNumber = 0
 
+		self.below = self.y
+		self.left = self.x
+		self.right = self.x
+
 	def generatePiece(self, dic):
 		for key in dic:
-			if key == 'A':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER, y=TOP, batch=gameBatch)
-			elif key == 'B':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH, y=TOP, batch=gameBatch)
-			elif key == 'C':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*2, y=TOP, batch=gameBatch)
-			elif key == 'D':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*3, y=TOP, batch=gameBatch)
-			elif key == 'E':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER, y=(TOP - BLOCKLENGTH), batch=gameBatch)
-			elif key == 'F':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH, y=(TOP - BLOCKLENGTH), batch=gameBatch)
-			elif key == 'G':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*2, y=(TOP - BLOCKLENGTH), batch=gameBatch)
-			elif key == 'H':
-				dic[key] = sprite.Sprite(blockImage, x=CENTER + BLOCKLENGTH*3, y=(TOP - BLOCKLENGTH), batch=gameBatch)
-			else:
-				print "Invalid Piece Key!"
+			dic[key] = sprite.Sprite(blockImage, x=CENTER, y=TOP, batch=gameBatch)
 
 	def fallBlock(self, sprite, y, x):
 		sprite.set_position(x=x, y=y)
 
 	def shiftBlock(self, sprite, x):
 		sprite.set_position(x=x, y=sprite.y)
+
+	def position(self, block):
+		if block == 'left':
+			return self.left
+		elif block == 'below':
+			return self.below
+		elif block == 'right':
+			return self.right
 
 	def fall(self):
 		return False
@@ -726,18 +721,3 @@ class T_shape(piece):
 		self.fallBlock(self.T_shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy,
 							self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
 #---------------------------------------------------------------------
-
-
-piece = T_shape(CENTER, TOP)
-
-def fall(dt):
-    piece.fall()
-
-def movePieceLeft():
-	piece.shiftLeft()
-
-def movePieceRight():
-	piece.shiftRight()
-
-def rotatePiece():
-	piece.rotatePiece()
