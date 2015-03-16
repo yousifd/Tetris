@@ -8,12 +8,6 @@
 
 # # Size of play area 10x18 blocks
 
-# # You could possibly check the position of each block and divide it by 10 then 36 to get the column
-# # then you would divide the position by 18 then 36 to get the row. From that information create
-# # the array used to figure out the completion of lines and position of all the pieces.
-
-# We could have used the rotate attribute for sprite, sigh !
-
 from constants import *
 
 from pyglet import graphics
@@ -52,9 +46,8 @@ class piece(object):
 
 		self.rotationNumber = 0
 
-		self.below = self.y
-		self.left = self.x
-		self.right = self.x
+		self.column = self.y
+		self.row = self.x
 
 	def generatePiece(self, dic):
 		for key in dic:
@@ -67,12 +60,10 @@ class piece(object):
 		sprite.set_position(x=x, y=sprite.y)
 
 	def position(self, block):
-		if block == 'left':
+		if block == 'row':
 			return self.x
-		elif block == 'below':
+		elif block == 'column':
 			return self.y
-		elif block == 'right':
-			return self.x
 
 	def fall(self):
 		return False
