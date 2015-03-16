@@ -1,3 +1,4 @@
+from constants import *
 from menu import *
 
 from pyglet.window import Window
@@ -8,11 +9,11 @@ from pyglet.window import mouse
 window = Window(width=WIDTH, height=HEIGHT)
 
 def mainMenu():
-	mainMenu = Menu(window.width, window.height)
+	menu = Menu(window.width, window.height)
 
-	# # mainMenu.addTitle('title.png', x, y)
+	# # menu.addTitle('title.png', x, y)
 
-	mainMenu.addCenterButton('play.png', 15)
-	mainMenu.addCenterButton('quit.png')
+	menu.addCenterButton('play.png', 15)
+	menu.addCenterButton('quit.png')
 
-	return mainMenu
+	return menu

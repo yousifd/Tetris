@@ -1,5 +1,3 @@
-from constants import *
-
 from pyglet import graphics
 from pyglet import image as pygletImage
 from pyglet import sprite
@@ -7,6 +5,8 @@ from pyglet import sprite
 # work on creating a resource file that you go to for all resources
 # Try creating a list menu that is a subclass of menu!
 # Try creating a circular menu that is a subclass of menu!
+
+# Don't use getters and settrs
 
 class Image(object):
 	def __init__(self, image, xPos, yPos, batch, animation=None):
@@ -76,7 +76,7 @@ class Menu(object):
 		   x: Position of menu Horizontally inside of the window
 		   y: Position of menu Vertically inside of the window
 
-		   buttonShift: the shift of buttons from mid heigth'''
+		   buttonShift: the shift of buttons from mid height'''
 		self.batch = graphics.Batch()
 		self.title = None
 		self.buttons = []
