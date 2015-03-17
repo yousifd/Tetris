@@ -79,10 +79,10 @@ class O_shape(piece):
 
 	def fall(self):
 			self.y -= MOVMENT_CONSTANT
-			self.fallBlock(self.shape['C'], self.y)
-			self.fallBlock(self.shape['D'], self.y)
-			self.fallBlock(self.shape['G'], self.y - BLOCKLENGTH)
-			self.fallBlock(self.shape['H'], self.y - BLOCKLENGTH)
+			self.fallBlock(self.shape['C'], self.y, self.x + BLOCKLENGTH*2)
+			self.fallBlock(self.shape['D'], self.y, self.x +BLOCKLENGTH*3)
+			self.fallBlock(self.shape['G'], self.y - BLOCKLENGTH, self.x +BLOCKLENGTH*2)
+			self.fallBlock(self.shape['H'], self.y - BLOCKLENGTH, self.x + BLOCKLENGTH*3)
 
 	def shiftLeft(self):
 		if self.x > 0 - 2*BLOCKLENGTH:
@@ -707,7 +707,7 @@ def generatePiece():
 	elif p == 1:
 		return I_shape(CENTER, TOP)
 	elif p == 2:
-		return shape(CENTER, TOP)
+		return L_shape(CENTER, TOP)
 	elif p == 3:
 		return J_shape(CENTER, TOP)
 	elif p == 4:

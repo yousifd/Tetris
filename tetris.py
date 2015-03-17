@@ -12,7 +12,6 @@ gameStart = False
 mainMenu = mainMenu()
 
 board = Board()
-piece = generatePiece()
 
 def quit():
     window.close()
@@ -34,7 +33,7 @@ def on_mouse_press(x, y, button, modifiers):
         if not gameStart:
             if mainMenu.ifAbove('play', x, y):
                 gameStart = True
-                clock.schedule_interval(fall, 1, piece=piece, board=board) 
+                clock.schedule_interval(board.fall, 1) 
                 mainMenu.delete()
             elif mainMenu.ifAbove('quit', x, y):
                 quit()
@@ -42,13 +41,13 @@ def on_mouse_press(x, y, button, modifiers):
 @window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.LEFT:
-        movePieceLeft(piece, board)
+        board.movePieceLeft()
     elif symbol == key.RIGHT:
-        movePieceRight(piece, board)
+        board.movePieceRight()
     elif symbol == key.DOWN:
-        fall(0, piece, board)
+        board.fall(0)
     elif symbol == key.UP:
-        rotatePiece(piece, board)
+        board.rotatePiece()
     elif symbol == key.ESCAPE:
 	    window.close()
 	    app.exit()
