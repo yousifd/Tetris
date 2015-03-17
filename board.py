@@ -8,6 +8,8 @@ class Board(object):
 
 		self.piece = generatePiece()
 
+		self.storedSprites = []
+
 		def zero():
 			c = [1]
 			for i in range(18):
@@ -30,53 +32,51 @@ class Board(object):
 		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp, self.ctemp, self.ctemp]
 
 
-	def relativePiecePositionX(self):
-		return self.piece.x / BLOCKLENGTH
+	def relativePiecePositionX(self, key):
+		return self.piece.shape[key].x / BLOCKLENGTH
 
 	def relativePiecePositionY(self, key):
 		return self.piece.shape[key].y / BLOCKLENGTH
 
-	def pieceColumn(self, block=1):
-		if self.relativePiecePositionX() == 0:
+	def pieceColumn(self, key, block=1):
+		if self.relativePiecePositionX(key) == 0:
 			return self.columns[0 + block]
-		elif self.relativePiecePositionX() == 1:
+		elif self.relativePiecePositionX(key) == 1:
 			return self.columns[1 + block]
-		elif self.relativePiecePositionX() == 2:
+		elif self.relativePiecePositionX(key) == 2:
 			return self.columns[2 + block]
-		elif self.relativePiecePositionX() == 3:
+		elif self.relativePiecePositionX(key) == 3:
 			return self.columns[3 + block]
-		elif self.relativePiecePositionX() == 4:
+		elif self.relativePiecePositionX(key) == 4:
 			return self.columns[4 + block]
-		elif self.relativePiecePositionX() == 5:
+		elif self.relativePiecePositionX(key) == 5:
 			return self.columns[5 + block]
-		elif self.relativePiecePositionX() == 6:
+		elif self.relativePiecePositionX(key) == 6:
 			return self.columns[6 + block]
-		elif self.relativePiecePositionX() == 7:
+		elif self.relativePiecePositionX(key) == 7:
 			return self.columns[7 + block]
-		elif self.relativePiecePositionX() == 8:
+		elif self.relativePiecePositionX(key) == 8:
 			return self.columns[8 + block]
-		elif self.relativePiecePositionX() == 9:
+		elif self.relativePiecePositionX(key) == 9:
 			return self.columns[9 + block]
 		else:
 			 return self.ctemp
-			 
+
 	def checkBelow(self):
-		print 'start piece'
 		for key in self.piece.shape:
-			print self.pieceColumn()[self.relativePiecePositionY(key)]
-			if self.pieceColumn()[self.relativePiecePositionY(key)] != 0:
+			if self.pieceColumn(key)[self.relativePiecePositionY(key)] != 0:
 				return False
 		return True
 
 	def checkLeft(self):
 		for key in self.piece.shape:
-			if self.pieceColumn(0)[self.relativePiecePositionY(key)] != 0:
+			if self.pieceColumn(key, 0)[self.relativePiecePositionY(key)] != 0:
 				return False
 		return True
 
 	def checkRight(self):
 		for key in self.piece.shape:
-			if self.pieceColumn(2)[self.relativePiecePositionY(key)] != 0:
+			if self.pieceColumn(key, 2)[self.relativePiecePositionY(key)] != 0:
 				return False
 		return True
 
@@ -88,7 +88,9 @@ class Board(object):
 			self.piece.fall()
 	    else:
 			for key in self.piece.shape:
-				self.pieceColumn()[self.relativePiecePositionY(key)] = 1
+				self.pieceColumn(key)[self.relativePiecePositionY(key) + 1] = 1
+				self.storedSprites.append(sprite.Sprite(blockImage, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
+
 			self.piece = generatePiece()
 
 	def movePieceLeft(self):

@@ -307,6 +307,8 @@ class J_shape(piece):
 		self.shape = {'A':0, 'B':0, 'C':0, 'G':0}
 		piece.generatePiece(self, self.shape)
 
+		self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
+
 	def fall(self):
 			self.y -= MOVMENT_CONSTANT
 			self.fallBlock(self.shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
