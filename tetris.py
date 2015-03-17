@@ -19,8 +19,7 @@ def quit():
 
 @window.event
 def on_draw():
-    # window.clear()
-     
+    window.clear()
     if not gameStart:
         mainMenu.draw()
     else:
