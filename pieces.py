@@ -10,6 +10,8 @@
 
 from constants import *
 
+import random 
+
 from pyglet import graphics
 from pyglet import image
 from pyglet import sprite
@@ -175,36 +177,36 @@ class I_shape(piece):
 class L_shape(piece):
 	def __init__(self, x, y):
 		piece.__init__(self, x, y)
-		self.L_shape = {'E':0, 'A':0, 'B':0, 'C':0}
-		piece.generatePiece(self, self.L_shape)
+		self.shape = {'E':0, 'A':0, 'B':0, 'C':0}
+		piece.generatePiece(self, self.shape)
 
 		self.ROTATE_CONSTANT_RIGHT = WIDTH - 3*BLOCKLENGTH
 
 	def fall(self):
 			self.y -= MOVMENT_CONSTANT
-			self.fallBlock(self.L_shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
+			self.fallBlock(self.shape['A'], self.y + self.ROTATE_CONSTANT_Ay, 
 									self.x + self.ROTATE_CONSTANT_Ax)
-			self.fallBlock(self.L_shape['B'], self.y, self.x + BLOCKLENGTH)
-			self.fallBlock(self.L_shape['C'], self.y + self.ROTATE_CONSTANT_Cy,
+			self.fallBlock(self.shape['B'], self.y, self.x + BLOCKLENGTH)
+			self.fallBlock(self.shape['C'], self.y + self.ROTATE_CONSTANT_Cy,
 									self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
-			self.fallBlock(self.L_shape['E'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Ey, 
+			self.fallBlock(self.shape['E'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Ey, 
 									self.x + self.ROTATE_CONSTANT_Ex)
 
 	def shiftLeft(self):
 		if self.x > self.ROTATE_CONSTANT_LEFT:
 			self.x -= MOVMENT_CONSTANT
-			self.shiftBlock(self.L_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
-			self.shiftBlock(self.L_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.L_shape['C'], self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
-			self.shiftBlock(self.L_shape['E'], self.x + self.ROTATE_CONSTANT_Ex)
+			self.shiftBlock(self.shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
+			self.shiftBlock(self.shape['B'], self.x + BLOCKLENGTH)
+			self.shiftBlock(self.shape['C'], self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+			self.shiftBlock(self.shape['E'], self.x + self.ROTATE_CONSTANT_Ex)
 
 	def shiftRight(self):
 		if self.x < self.ROTATE_CONSTANT_RIGHT:
 			self.x += MOVMENT_CONSTANT
-			self.shiftBlock(self.L_shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
-			self.shiftBlock(self.L_shape['B'], self.x + BLOCKLENGTH)
-			self.shiftBlock(self.L_shape['C'], self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
-			self.shiftBlock(self.L_shape['E'], self.x + self.ROTATE_CONSTANT_Ex)
+			self.shiftBlock(self.shape['A'], self.x + self.ROTATE_CONSTANT_Ax)
+			self.shiftBlock(self.shape['B'], self.x + BLOCKLENGTH)
+			self.shiftBlock(self.shape['C'], self.x + BLOCKLENGTH*2 + self.ROTATE_CONSTANT_Cx)
+			self.shiftBlock(self.shape['E'], self.x + self.ROTATE_CONSTANT_Ex)
 
 	def rotatePiece(self):
 
@@ -696,3 +698,42 @@ class T_shape(piece):
 		self.fallBlock(self.shape['F'], self.y - BLOCKLENGTH + self.ROTATE_CONSTANT_Fy,
 							self.x + BLOCKLENGTH + self.ROTATE_CONSTANT_Fx)
 #---------------------------------------------------------------------
+
+def generatePiece():
+	p = random.randint(0, 6)
+
+	if p == 0:
+		return O_shape(CENTER, TOP)
+	elif p == 1:
+		return I_shape(CENTER, TOP)
+	elif p == 2:
+		return shape(CENTER, TOP)
+	elif p == 3:
+		return J_shape(CENTER, TOP)
+	elif p == 4:
+		return Z_shape(CENTER, TOP)
+	elif p == 5:
+		return S_shape(CENTER, TOP)
+	elif p == 6:
+		return T_shape(CENTER, TOP)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

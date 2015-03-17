@@ -12,7 +12,7 @@ gameStart = False
 mainMenu = mainMenu()
 
 board = Board()
-piece = T_shape(CENTER, TOP)
+piece = generatePiece()
 
 def quit():
     window.close()
