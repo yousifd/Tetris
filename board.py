@@ -23,13 +23,13 @@ class Board(object):
 		self.c9 = zero()
 
 
-		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp]
+		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp, self.ctemp]
 
 	def relativePiecePositionX(self, piece):
-		return piece.position('row') / BLOCKLENGTH
+		return piece.x / BLOCKLENGTH
 
 	def relativePiecePositionY(slef, piece):
-		return piece.position('column') / BLOCKLENGTH
+		return piece.y / BLOCKLENGTH
 
 	def pieceColumn(self, piece, block=1):
 		if self.relativePiecePositionX(piece) == 0:
@@ -56,39 +56,50 @@ class Board(object):
 			print 'Something is really wrong with us!'
 
 	def checkBelow(self, piece):
-		# Check index below
-		if self.pieceColumn(piece)[self.relativePiecePositionY(piece)] == 0:
-			return True
-		else:
-			return False
+		for key in piece.shape:
+			if self.pieceColumn(piece)[self.relativePiecePositionY(piece.shape[key])] != 0:
+				return False
+		return True
 
 	def checkLeft(self, piece):
-		if self.pieceColumn(piece, 0)[self.relativePiecePositionY(piece)] == 0:
-			return True
-		else:
-			return False
+		for key in piece.shape:
+			if self.pieceColumn(piece, 0)[self.relativePiecePositionY(piece.shape[key])] != 0:
+				return False
+		return True
 
 	def checkRight(self, piece):
-		if self.pieceColumn(piece, 2)[self.relativePiecePositionY(piece)] == 0:
-			return True
-		else:
-			return False
+		for key in piece.shape:
+			if self.pieceColumn(piece, 2)[self.relativePiecePositionY(piece.shape[key])] != 0:
+				return False
+		return True
 
-board = Board()
+	def checkSuroundings(self, piece):
+		return self.checkBelow(piece) and self.checkRight(piece) and self.checkLeft(piece)
 
-def fall(dt, piece):
+def fall(dt, piece, board):
     if board.checkBelow(piece):
     	piece.fall()
     else:
-    	board.pieceColumn(piece)[board.relativePiecePositionY(piece)] = 1
+    	for key in piece.shape:
+			board.pieceColumn(piece)[board.relativePiecePositionY(piece.shape[key])] = 1
 
-def movePieceLeft(piece):
+def movePieceLeft(piece, board):
 	if board.checkLeft(piece):
 		piece.shiftLeft()
 
-def movePieceRight(piece):
+def movePieceRight(piece, board):
 	if board.checkRight(piece):
 		piece.shiftRight()
 
-def rotatePiece(piece):
-	piece.rotatePiece()
+def rotatePiece(piece, board):
+	if board.checkSuroundings(piece):
+		piece.rotatePiece()
+
+
+
+
+
+
+
+
+
