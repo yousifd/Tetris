@@ -3,6 +3,22 @@ from pieces import *
 
 from pyglet import clock
 
+#clear completed lines
+#finish game
+#pause game
+#ADD A BACKGROUND YOUSIF
+
+#Fix wait time until block is allowed to not move
+#Add instant falling
+#enable hold on down button
+
+#score system
+#make options manue
+#Audio
+#add more controls
+#speed option
+#Animation 
+
 class Board(object):
 	def __init__(self):
 
@@ -12,7 +28,7 @@ class Board(object):
 
 		def zero():
 			c = [1]
-			for i in range(18):
+			for i in range(19):
 				c.append(0)
 			return c
 
@@ -64,6 +80,8 @@ class Board(object):
 
 	def checkBelow(self):
 		for key in self.piece.shape:
+			print key
+			print self.relativePiecePositionY(key)
 			if self.pieceColumn(key)[self.relativePiecePositionY(key)] != 0:
 				return False
 		return True
