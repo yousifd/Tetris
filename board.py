@@ -89,7 +89,7 @@ class Board(object):
 	    else:
 			for key in self.piece.shape:
 				self.pieceColumn(key)[self.relativePiecePositionY(key) + 1] = 1
-				self.storedSprites.append(sprite.Sprite(blockImage, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
+				self.storedSprites.append(sprite.Sprite(self.piece.block, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
 
 			self.piece = generatePiece()
 

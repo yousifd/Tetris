@@ -18,12 +18,12 @@ from pyglet import sprite
 
 gameBatch = graphics.Batch()
 
-blockImage = image.load('block.png')
-
 class piece(object):
-	def __init__(self, x, y):
+	def __init__(self, x, y, block):
 		self.x = x
 		self.y = y
+
+		self.block = image.load(block + '.png')
 
 		self.ROTATE_CONSTANT_Ax = 0
 		self.ROTATE_CONSTANT_Ay = 0
@@ -50,7 +50,7 @@ class piece(object):
 
 	def generatePiece(self, dic):
 		for key in dic:
-			dic[key] = sprite.Sprite(blockImage, x=CENTER, y=TOP, batch=gameBatch)
+			dic[key] = sprite.Sprite(self.block, x=CENTER, y=TOP, batch=gameBatch)
 
 	def fallBlock(self, sprite, y, x):
 		sprite.set_position(x=x, y=y)
@@ -73,7 +73,7 @@ class piece(object):
 #----------------------------------------------------------------------
 class O_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Yellow')
 		self.shape = {'C':0, 'D':0, 'G':0, 'H':0}
 		piece.generatePiece(self, self.shape)
 
@@ -102,7 +102,7 @@ class O_shape(piece):
 #---------------------------------------------------------------------
 class I_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Turquoise')
 		self.shape = {'A':0, 'B':0, 'C':0, 'D':0}
 		piece.generatePiece(self, self.shape) 
 
@@ -176,7 +176,7 @@ class I_shape(piece):
 #----------------------------------------------------------------------			
 class L_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Orange')
 		self.shape = {'E':0, 'A':0, 'B':0, 'C':0}
 		piece.generatePiece(self, self.shape)
 
@@ -303,7 +303,7 @@ class L_shape(piece):
 #----------------------------------------------------------------------
 class J_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Blue')
 		self.shape = {'A':0, 'B':0, 'C':0, 'G':0}
 		piece.generatePiece(self, self.shape)
 
@@ -430,7 +430,7 @@ class J_shape(piece):
 #----------------------------------------------------------------------
 class Z_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Red')
 		self.shape = {'A':0, 'B':0, 'F':0, 'G':0}
 		piece.generatePiece(self, self.shape)
 
@@ -502,7 +502,7 @@ class Z_shape(piece):
 #----------------------------------------------------------------------
 class S_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Green')
 		self.shape = {'E':0, 'F':0, 'B':0, 'C':0}
 		piece.generatePiece(self, self.shape)
 
@@ -574,7 +574,7 @@ class S_shape(piece):
 #----------------------------------------------------------------------
 class T_shape(piece):
 	def __init__(self, x, y):
-		piece.__init__(self, x, y)
+		piece.__init__(self, x, y, 'Purple')
 		self.shape = {'A':0, 'B':0, 'C':0, 'F':0}
 		piece.generatePiece(self, self.shape)
 
