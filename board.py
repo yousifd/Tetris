@@ -127,7 +127,8 @@ class Board(object):
 					self.columns[i] = column
 
 				for s in self.storedSprites:
-					s.y -= BLOCKLENGTH
+					if s.y >= yOfDeletedColumn:
+						s.y -= BLOCKLENGTH
 
 	def fall(self, dt):
 	    if self.checkBelow():
