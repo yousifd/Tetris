@@ -80,8 +80,6 @@ class Board(object):
 
 	def checkBelow(self):
 		for key in self.piece.shape:
-			print key
-			print self.relativePiecePositionY(key)
 			if self.pieceColumn(key)[self.relativePiecePositionY(key)] != 0:
 				return False
 		return True
@@ -101,6 +99,36 @@ class Board(object):
 	def checkSuroundings(self):
 		return self.checkBelow() and self.checkRight() and self.checkLeft()
 
+	def checkLine(self, row):
+		isLineFull = True
+		for column in self.columns[1:11]:
+			columnTemp = column[1:]
+			if columnTemp[row] == 0:
+				isLineFull = False
+		return isLineFull
+
+	def removeLine(self):
+		i = 0
+		for key in self.piece.shape:
+			if self.checkLine(self.relativePiecePositionY(key)):
+				for column in self.columns[1:11]:
+					i += 1
+					column = column[1:]
+
+					del column[self.relativePiecePositionY(key)]
+					column.append(0)
+					yOfDeletedColumn = self.piece.shape[key].y 
+
+					for s in self.storedSprites:
+						if s.y == yOfDeletedColumn:
+							del self.storedSprites[self.storedSprites.index(s)]
+
+					column.insert(0, 1)
+					self.columns[i] = column
+
+				for s in self.storedSprites:
+					s.y -= BLOCKLENGTH
+
 	def fall(self, dt):
 	    if self.checkBelow():
 			self.piece.fall()
@@ -108,7 +136,9 @@ class Board(object):
 			for key in self.piece.shape:
 				self.pieceColumn(key)[self.relativePiecePositionY(key) + 1] = 1
 				self.storedSprites.append(sprite.Sprite(self.piece.block, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
-
+			
+			self.removeLine()
+						
 			self.piece = generatePiece()
 
 	def movePieceLeft(self):
