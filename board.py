@@ -5,12 +5,17 @@ import time
 
 from pyglet import clock
 
+#compelted:
+
 #clear completed lines
+# Fix wait time until block is allowed to not move
+
+#TODO:
+
 #finish game
 #pause game
 #ADD A BACKGROUND YOUSIF
 
-##Fix wait time until block is allowed to not move
 #Add instant falling
 #enable hold on down button
 
@@ -29,6 +34,8 @@ class Board(object):
 		self.storedSprites = []
 
 		self.oldTime = time.time()
+
+		self.i = 0
 
 		def zero():
 			c = [1]
@@ -52,7 +59,10 @@ class Board(object):
 		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp, self.ctemp, self.ctemp]
 
 	def timeSinceLastMovement(self, time):
-		return time - self.oldTime > 2.5
+		return time - self.oldTime > 0.01
+
+	def checkSteps(self):
+		return self.i >= 1
 
 	def relativePiecePositionX(self, key):
 		return self.piece.shape[key].x / BLOCKLENGTH
@@ -140,7 +150,8 @@ class Board(object):
 		if self.checkBelow():
 			self.piece.fall()
 			self.oldTime = time.time()
-		if self.timeSinceLastMovement(time.time()):
+		elif self.timeSinceLastMovement(time.time()) or self.checkSteps():
+			self.i = 0
 			for key in self.piece.shape:
 				self.pieceColumn(key)[self.relativePiecePositionY(key) + 1] = 1
 				self.storedSprites.append(sprite.Sprite(self.piece.block, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
@@ -150,16 +161,16 @@ class Board(object):
 			self.piece = generatePiece()
 
 	def movePieceLeft(self):
-		print self.checkLeft()
 		if self.checkLeft():
 			self.piece.shiftLeft()
 			self.oldTime = time.time()
+			self.i += 1
 
 	def movePieceRight(self):
-		print self.checkRight()
 		if self.checkRight():
 			self.piece.shiftRight()
 			self.oldTime = time.time()
+			self.i += 1
 
 	def rotatePiece(self):
 		if self.checkSuroundings():
