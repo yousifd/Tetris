@@ -10,10 +10,10 @@ from pyglet import clock
 # Clear completed lines
 # Fix wait time until block is allowed to not move
 # Pause game
+#finish game
 
 #TODO:
 
-#finish game
 #ADD A BACKGROUND YOUSIF
 
 #Add instant falling
@@ -41,7 +41,7 @@ class Board(object):
 
 		def zero():
 			c = [1]
-			for i in range(19):
+			for i in range(20):
 				c.append(0)
 			return c
 
