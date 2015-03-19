@@ -48,7 +48,7 @@ def on_mouse_press(x, y, button, modifiers):
                 gameStart = True
                 board.gameStop = False
                 gameRunning = True
-                clock.schedule_interval(board.fall, 0.9) 
+                clock.schedule_interval(board.fall, 1) 
                 mainMenu.delete()
             elif mainMenu.ifAbove('quit', x, y):
                 quit()
@@ -68,6 +68,7 @@ def on_key_press(symbol, modifiers):
     elif symbol == key.RIGHT and gameRunning:
         board.movePieceRight()
     elif symbol == key.DOWN and gameRunning:
+        clock.unschedule(board.fall)
         clock.schedule(board.fallFaster)
     elif symbol == key.UP and gameRunning:
         clock.schedule(board.rotatePiece)
@@ -79,6 +80,7 @@ def on_key_press(symbol, modifiers):
 def on_key_release(symbol, modifiers):
     if symbol == key.DOWN and gameRunning:
         clock.unschedule(board.fallFaster)
+        clock.schedule_interval(board.fall, 1)
     elif symbol == key.UP and gameRunning:
         clock.unschedule(board.rotatePiece)
 
