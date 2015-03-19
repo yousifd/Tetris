@@ -37,6 +37,8 @@ class Board(object):
 
 		self.i = 0
 
+		self.gameStop = True
+
 		def zero():
 			c = [1]
 			for i in range(19):
@@ -56,7 +58,7 @@ class Board(object):
 		self.c8 = zero()
 		self.c9 = zero()
 
-		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp, self.ctemp, self.ctemp]
+		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp, self.ctemp, self.ctemp, self.ctemp]
 
 	def timeSinceLastMovement(self, time):
 		return time - self.oldTime > 0.01
@@ -146,12 +148,21 @@ class Board(object):
 					if s.y >= yOfDeletedColumn:
 						s.y -= BLOCKLENGTH
 
+	def isGameOver(self):
+		for column in self.columns[1:11]:
+			if column[17] == 1:
+				self.gameStop = True
+
+
+
 	def fall(self, dt):
+		self.isGameOver()
 		if self.checkBelow():
 			self.piece.fall()
 			self.oldTime = time.time()
 		elif self.timeSinceLastMovement(time.time()) or self.checkSteps():
 			self.i = 0
+
 			for key in self.piece.shape:
 				self.pieceColumn(key)[self.relativePiecePositionY(key) + 1] = 1
 				self.storedSprites.append(sprite.Sprite(self.piece.block, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))

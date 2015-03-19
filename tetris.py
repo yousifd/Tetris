@@ -22,6 +22,8 @@ def on_draw():
     window.clear()
     if not gameStart:
         mainMenu.draw()
+    elif board.gameStop:
+        quit()
     else:
         gameBatch.draw()
         
@@ -33,6 +35,7 @@ def on_mouse_press(x, y, button, modifiers):
         if not gameStart:
             if mainMenu.ifAbove('play', x, y):
                 gameStart = True
+                board.gameStop = False
                 clock.schedule_interval(board.fall, 1) 
                 mainMenu.delete()
             elif mainMenu.ifAbove('quit', x, y):
