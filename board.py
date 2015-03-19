@@ -10,10 +10,10 @@ from pyglet import clock
 # Clear completed lines
 # Fix wait time until block is allowed to not move
 # Pause game
+#finish game
 
 #TODO:
 
-#finish game
 #ADD A BACKGROUND YOUSIF
 
 #Add instant falling
@@ -110,6 +110,7 @@ class Board(object):
 
 	def checkRight(self):
 		for key in self.piece.shape:
+			print 
 			if self.pieceColumn(key, 2)[self.relativePiecePositionY(key) + 1] != 0:
 				return False
 		return True

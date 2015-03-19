@@ -48,7 +48,7 @@ def on_mouse_press(x, y, button, modifiers):
                 gameStart = True
                 board.gameStop = False
                 gameRunning = True
-                clock.schedule_interval(board.fall, 1) 
+                clock.schedule_interval(board.fall, 0.9) 
                 mainMenu.delete()
             elif mainMenu.ifAbove('quit', x, y):
                 quit()
