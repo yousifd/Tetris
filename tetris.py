@@ -9,6 +9,8 @@ from pyglet.window import Window
 from pyglet.window import key
 from pyglet.window import mouse
 
+clock.set_fps_limit(60)
+
 window = Window(width=WIDTH, height=HEIGHT)
 
 #move this later inside the game method or class
