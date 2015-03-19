@@ -41,7 +41,7 @@ class Board(object):
 
 		def zero():
 			c = [1]
-			for i in range(19):
+			for i in range(20):
 				c.append(0)
 			return c
 
@@ -110,7 +110,6 @@ class Board(object):
 
 	def checkRight(self):
 		for key in self.piece.shape:
-			print 
 			if self.pieceColumn(key, 2)[self.relativePiecePositionY(key) + 1] != 0:
 				return False
 		return True
