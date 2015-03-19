@@ -68,12 +68,19 @@ def on_key_press(symbol, modifiers):
     elif symbol == key.RIGHT and gameRunning:
         board.movePieceRight()
     elif symbol == key.DOWN and gameRunning:
-        board.fall(0)
+        clock.schedule(board.fallFaster)
     elif symbol == key.UP and gameRunning:
-        board.rotatePiece()
+        clock.schedule(board.rotatePiece)
     elif symbol == key.P and gameRunning:
         gameRunning = False
         clock.unschedule(board.fall)
+
+@window.event
+def on_key_release(symbol, modifiers):
+    if symbol == key.DOWN and gameRunning:
+        clock.unschedule(board.fallFaster)
+    elif symbol == key.UP and gameRunning:
+        clock.unschedule(board.rotatePiece)
 
 def game():
     app.run()

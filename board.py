@@ -171,6 +171,9 @@ class Board(object):
 						
 			self.piece = generatePiece()
 
+	def fallFaster(self, dt):
+		self.fall(dt)
+
 	def movePieceLeft(self):
 		if self.checkLeft():
 			self.piece.shiftLeft()
@@ -183,7 +186,7 @@ class Board(object):
 			self.oldTime = time.time()
 			self.i += 1
 
-	def rotatePiece(self):
+	def rotatePiece(self, dt):
 		if self.checkSuroundings():
 			self.piece.rotatePiece()
 			self.oldTime = time.time()
