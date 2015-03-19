@@ -11,13 +11,13 @@ from pyglet import clock
 # Fix wait time until block is allowed to not move
 # Pause game
 #finish game
+#enable hold on down button
 
 #TODO:
 
 #ADD A BACKGROUND YOUSIF
 
 #Add instant falling
-#enable hold on down button
 
 #score system
 #make options manue
