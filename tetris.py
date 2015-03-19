@@ -9,7 +9,7 @@ from pyglet.window import Window
 from pyglet.window import key
 from pyglet.window import mouse
 
-clock.set_fps_limit(60)
+# clock.set_fps_limit(60)
 
 window = Window(width=WIDTH, height=HEIGHT)
 
@@ -71,9 +71,10 @@ def on_key_press(symbol, modifiers):
         board.movePieceRight()
     elif symbol == key.DOWN and gameRunning:
         clock.unschedule(board.fall)
-        clock.schedule(board.fallFaster)
+        clock.schedule_interval(board.fallFaster, 0.1)
     elif symbol == key.UP and gameRunning:
-        clock.schedule(board.rotatePiece)
+        board.rotatePiece(0.01)
+        clock.schedule_interval(board.rotatePiece, 0.3)
     elif symbol == key.P and gameRunning:
         gameRunning = False
         clock.unschedule(board.fall)
