@@ -37,6 +37,9 @@ class Board(object):
 
 		self.i = 0
 
+		self.completedLines = 0
+		self.score = 0 
+
 		self.gameStop = True
 
 		def zero():
@@ -127,6 +130,7 @@ class Board(object):
 
 	def removeLine(self):
 		i = 0
+		self.completedLines = 0
 		for key in self.piece.shape:
 			if self.checkLine(self.relativePiecePositionY(key)):
 				for column in self.columns[1:11]:
@@ -148,15 +152,30 @@ class Board(object):
 					if s.y >= yOfDeletedColumn:
 						s.y -= BLOCKLENGTH
 
+				self.completedLines += 1
+
+	def scoring(self):
+		if self.completedLines == 1:
+			self.score += 40 
+		elif self.completedLines == 2:
+			self.score += 100
+		elif self.completedLines == 3:
+			self.score += 300
+		elif self.completedLines == 4:
+			self.score += 1200
+
+		print 'completedLines: ', self.completedLines
+		print 'score: ', self.score
+
 	def isGameOver(self):
 		for column in self.columns[1:11]:
 			if column[17] == 1:
 				self.gameStop = True
 
 
-
 	def fall(self, dt):
 		self.isGameOver()
+
 		if self.checkBelow():
 			self.piece.fall()
 			self.oldTime = time.time()
@@ -168,6 +187,7 @@ class Board(object):
 				self.storedSprites.append(sprite.Sprite(self.piece.block, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
 			
 			self.removeLine()
+			self.scoring()
 						
 			self.piece = generatePiece()
 
