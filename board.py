@@ -7,13 +7,13 @@ from pyglet import clock
 
 #compelted:
 
-#clear completed lines
+# Clear completed lines
 # Fix wait time until block is allowed to not move
+# Pause game
 
 #TODO:
 
 #finish game
-#pause game
 #ADD A BACKGROUND YOUSIF
 
 #Add instant falling

@@ -68,7 +68,6 @@ class piece(object):
 		return False
 
 	def rotatePiece(self):
-		print 'Rotate'
 		return False
 #----------------------------------------------------------------------
 class O_shape(piece):
