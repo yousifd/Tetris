@@ -11,7 +11,7 @@ from pyglet import clock
 # Fix wait time until block is allowed to not move
 # Pause game
 #finish game
-#enable hold on down button
+#enable hold on down buttona
 
 #TODO:
 
