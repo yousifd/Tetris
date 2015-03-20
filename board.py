@@ -12,6 +12,7 @@ from pyglet import clock
 # Pause game
 #finish game
 #enable hold on down buttona
+#score system
 
 #TODO:
 
@@ -19,7 +20,6 @@ from pyglet import clock
 
 #Add instant falling
 
-#score system
 #make options manue
 #Audio
 #add more controls
@@ -32,6 +32,7 @@ class Board(object):
 		self.piece = generatePiece()
 
 		self.storedSprites = []
+		self.grayBlock = image.load('Gray.png')
 
 		self.oldTime = time.time()
 
@@ -41,6 +42,9 @@ class Board(object):
 		self.score = 0 
 
 		self.gameStop = True
+
+		self.removeLines = []
+		self.deleteRows = [] 
 
 		def zero():
 			c = [1]
@@ -61,7 +65,7 @@ class Board(object):
 		self.c8 = zero()
 		self.c9 = zero()
 
-		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.ctemp, self.ctemp, self.ctemp, self.ctemp]
+		self.columns = [self.ctemp, self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8, self.c9, self.c0, self.ctemp, self.ctemp, self.ctemp]
 
 	def timeSinceLastMovement(self, time):
 		return time - self.oldTime > 0.01
@@ -128,31 +132,39 @@ class Board(object):
 				isLineFull = False
 		return isLineFull
 
-	def removeLine(self):
-		i = 0
+	def linesToBeRemoved(self):
 		self.completedLines = 0
+		self.removeLines = []
+
 		for key in self.piece.shape:
 			if self.checkLine(self.relativePiecePositionY(key)):
-				for column in self.columns[1:11]:
-					i += 1
-					column = column[1:]
+				if self.relativePiecePositionY(key) not in self.removeLines:
+					self.removeLines.append(self.relativePiecePositionY(key))
 
-					del column[self.relativePiecePositionY(key)]
-					column.append(0)
-					yOfDeletedColumn = self.piece.shape[key].y 
+					self.completedLines += 1
 
-					for s in self.storedSprites:
-						if s.y == yOfDeletedColumn:
-							del self.storedSprites[self.storedSprites.index(s)]
+	def removeLine(self):
+		for row in reversed(sorted(self.removeLines)):
+			for column in self.columns[1:11]:
+				del column[row + 1]
+				column.append(0)
 
-					column.insert(0, 1)
-					self.columns[i] = column
+		if self.removeLines:
+			# Turn block color gray before deleting them
+			# for Y in reversed(sorted(self.removeLines)):
+			# 	for s in self.storedSprites:
+			# 		if s.y == (Y * 36):
+			# 			self.storedSprites[self.storedSprites.index(s)] = sprite.Sprite(self.grayBlock, x=s.x, y=s.y, batch=gameBatch)
 
+			for Y in reversed(sorted(self.removeLines)):
 				for s in self.storedSprites:
-					if s.y >= yOfDeletedColumn:
-						s.y -= BLOCKLENGTH
+					if s.y == (Y * 36):
+						del self.storedSprites[self.storedSprites.index(s)]
 
-				self.completedLines += 1
+			for Y in reversed(sorted(self.removeLines)):
+				for s in self.storedSprites:
+					if s.y >= (Y * 36):
+						s.y -= BLOCKLENGTH	
 
 	def scoring(self):
 		if self.completedLines == 1:
@@ -164,14 +176,11 @@ class Board(object):
 		elif self.completedLines == 4:
 			self.score += 1200
 
-		print 'completedLines: ', self.completedLines
-		print 'score: ', self.score
-
 	def isGameOver(self):
 		for column in self.columns[1:11]:
 			if column[17] == 1:
 				self.gameStop = True
-
+				print 'Game Over! Your score is', self.score
 
 	def fall(self, dt):
 		self.isGameOver()
@@ -186,8 +195,11 @@ class Board(object):
 				self.pieceColumn(key)[self.relativePiecePositionY(key) + 1] = 1
 				self.storedSprites.append(sprite.Sprite(self.piece.block, x=self.piece.shape[key].x, y=self.piece.shape[key].y, batch=gameBatch))
 			
+			self.linesToBeRemoved()
 			self.removeLine()
+
 			self.scoring()
+			print 'score: ', self.score
 						
 			self.piece = generatePiece()
 
