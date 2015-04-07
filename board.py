@@ -5,26 +5,27 @@ import time
 
 from pyglet import clock
 
-#compelted:
+# COMPLETED:
 
-# Clear completed lines
-# Fix wait time until block is allowed to not move
-# Pause game
-#finish game
-#enable hold on down buttona
-#score system
+# Clear completed lines<Ebrahim>
+# Score system<Ebrahim>
+# Finish game<Ebrahim>
+# Fix wait time until block is allowed to not move<Yousif>
+# Pause game<Yousif>
+# Enable hold on down button<Yousif>
 
-#TODO:
+# TODO:
 
-#ADD A BACKGROUND YOUSIF
-
-#Add instant falling
-
-#make options manu
-#Audio
-#add more controls
-#speed option
-#Animation 
+# Implement Game UI
+# Implement Switching the current piece with the next one
+# Add Background
+# Add instant falling
+# Make options menu
+# Audio
+# Add more controls: Example?
+# Speed option
+# Increase Speed after completeting a set number of lines
+# Animation 
 
 class Board(object):
 	def __init__(self):
@@ -32,7 +33,8 @@ class Board(object):
 		self.piece = generatePiece()
 
 		self.storedSprites = []
-		self.grayBlock = image.load('Gray.png')
+		# WTF?
+		# self.grayBlock = image.load('Gray.png')
 
 		self.oldTime = time.time()
 
