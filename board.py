@@ -20,7 +20,7 @@ from pyglet import clock
 
 #Add instant falling
 
-#make options manue
+#make options manu
 #Audio
 #add more controls
 #speed option
@@ -130,6 +130,7 @@ class Board(object):
 			columnTemp = column[1:]
 			if columnTemp[row] == 0:
 				isLineFull = False
+		print 'isLineFull in this row:', row, '?', isLineFull, '\n'
 		return isLineFull
 
 	def linesToBeRemoved(self):
@@ -137,11 +138,15 @@ class Board(object):
 		self.removeLines = []
 
 		for key in self.piece.shape:
+			print 'self.relativePiecePositionY(key): ', self.relativePiecePositionY(key)
 			if self.checkLine(self.relativePiecePositionY(key)):
 				if self.relativePiecePositionY(key) not in self.removeLines:
 					self.removeLines.append(self.relativePiecePositionY(key))
 
 					self.completedLines += 1
+
+		for i in self.removeLines:
+			print 'removeLine: ', i
 
 	def removeLine(self):
 		for row in reversed(sorted(self.removeLines)):
@@ -149,6 +154,7 @@ class Board(object):
 				del column[row + 1]
 				column.append(0)
 
+	def removeBlcoks(self):
 		if self.removeLines:
 			# Turn block color gray before deleting them
 			# for Y in reversed(sorted(self.removeLines)):
@@ -156,14 +162,15 @@ class Board(object):
 			# 		if s.y == (Y * 36):
 			# 			self.storedSprites[self.storedSprites.index(s)] = sprite.Sprite(self.grayBlock, x=s.x, y=s.y, batch=gameBatch)
 
-			for Y in reversed(sorted(self.removeLines)):
-				for s in self.storedSprites:
-					if s.y == (Y * 36):
-						del self.storedSprites[self.storedSprites.index(s)]
+			for i in range(5):
+				for Y in reversed(sorted(self.removeLines)):
+					for s in self.storedSprites:
+						if float(s.y) == float(Y * BLOCKLENGTH):
+							del self.storedSprites[self.storedSprites.index(s)]
 
 			for Y in reversed(sorted(self.removeLines)):
 				for s in self.storedSprites:
-					if s.y >= (Y * 36):
+					if float(s.y) > float(Y * BLOCKLENGTH):
 						s.y -= BLOCKLENGTH	
 
 	def scoring(self):
@@ -177,10 +184,14 @@ class Board(object):
 			self.score += 1200
 
 	def isGameOver(self):
+		game = True
 		for column in self.columns[1:11]:
-			if column[17] == 1:
-				self.gameStop = True
-				print 'Game Over! Your score is', self.score
+			if column[18] == 1:
+				game = False
+
+		if not game:
+			self.gameStop = True
+			print 'Game Over! Your score is', self.score
 
 	def fall(self, dt):
 		self.isGameOver()
@@ -197,9 +208,13 @@ class Board(object):
 			
 			self.linesToBeRemoved()
 			self.removeLine()
+			self.removeBlcoks()
 
 			self.scoring()
-			print 'score: ', self.score
+			# print 'score: ', self.score
+
+			for i in self.columns[1:11]:
+				print i
 						
 			self.piece = generatePiece()
 
