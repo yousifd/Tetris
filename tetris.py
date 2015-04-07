@@ -63,8 +63,6 @@ def on_mouse_press(x, y, button, modifiers):
 @window.event
 def on_key_press(symbol, modifiers):
     global gameRunning
-    keyboard = key.KeyStateHandler()
-    window.push_handlers(keyboard)
 
     if symbol == key.LEFT and gameRunning:
         board.movePieceLeft()
@@ -72,14 +70,7 @@ def on_key_press(symbol, modifiers):
         board.movePieceRight()
     elif (symbol == key.DOWN) and gameRunning:
         clock.unschedule(board.fall)
-
-        # Falls twice when you click
-        # Play with the time until it does not fall twice once you click down
-        board.fall(0)
-        
-        print keyboard[key.DOWN]
-        if keyboard[key.DOWN]:
-            clock.schedule_interval(board.fallFaster, 0.01)
+        clock.schedule_interval(board.fallFaster, 0.1)
     elif symbol == key.UP and gameRunning:
         board.rotatePiece(0)
         clock.schedule_interval(board.rotatePiece, 0.3)
